@@ -19,7 +19,7 @@ namespace CMSCarousel.Infastructure.Repositories
             _connection.ConnectionString = conString;
         }
 
-       
+
 
         public List<thac_country> GetCountries()
         {
@@ -36,12 +36,9 @@ namespace CMSCarousel.Infastructure.Repositories
             var parameters = new DynamicParameters();
             parameters.Add("Name", country.Name, DbType.String, ParameterDirection.Input);
             parameters.Add("NSId", country.NSId, DbType.Int32, ParameterDirection.Input);
-          //  parameters.Add("CreatedBy", company.CreatedBy, DbType.Int32, ParameterDirection.Input);
-           // parameters.Add("CreatedDate", company.CreatedDate, DbType.DateTime, ParameterDirection.Input);
-           // parameters.Add("UpdatedDate", company.UpdatedDate, DbType.DateTime, ParameterDirection.Input);
-          //  parameters.Add("Status", company.Status, DbType.Int32, ParameterDirection.Input);
             parameters.Add("ReturnValue", null, DbType.Int32, ParameterDirection.Output);
             parameters.Add("ErrorCode", null, DbType.Int32, ParameterDirection.Output);
+            parameters.Add("ErrorMessage", null, DbType.String, ParameterDirection.Output);
 
             Execute("sp_InsertCountry", parameters);
             return parameters.Get<int>("ReturnValue");
@@ -49,12 +46,31 @@ namespace CMSCarousel.Infastructure.Repositories
 
         public int UpdateCountry(thac_country company)
         {
-            throw new NotImplementedException();
+            var parameters = new DynamicParameters();
+            parameters.Add("Id", company.Id, DbType.Int32);
+            parameters.Add("Name", company.Name, DbType.String, ParameterDirection.Input);
+            parameters.Add("NSId", company.NSId, DbType.Int32, ParameterDirection.Input);
+            parameters.Add("ReturnValue", null, DbType.Int32, ParameterDirection.Output);
+            parameters.Add("ErrorCode", null, DbType.Int32, ParameterDirection.Output);
+            parameters.Add("ErrorMessage", null, DbType.String, ParameterDirection.Output);
+
+            Execute("sp_UpdateCountry", parameters);
+            var errorCode = parameters.Get<int>("ReturnValue");
+            var errorMessage = parameters.Get<string>("ErrorMessage");
+
+            return parameters.Get<int>("ReturnValue");
         }
 
         public bool DeleteCountry(int id)
         {
-            throw new NotImplementedException();
+            var parameters = new DynamicParameters();
+            parameters.Add("Id", id, DbType.Int32);
+            parameters.Add("ErrorCode", null, DbType.Int32, ParameterDirection.Output);
+            parameters.Add("ErrorMessage", null, DbType.String, ParameterDirection.Output);
+
+            Execute("sp_DeleteCountry", parameters);
+            var errorCode = parameters.Get<int>("ErrorCode");
+            return errorCode == 0;
         }
     }
 }
