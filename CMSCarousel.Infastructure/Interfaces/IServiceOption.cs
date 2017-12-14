@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CMSCarousel.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace CMSCarousel.Infastructure.Interfaces
 {
     public interface IServiceOption
     {
-
+        int InsertServiceOption(thac_serviceoption ServiceOption);
     }
 }
