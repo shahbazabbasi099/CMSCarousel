@@ -97,7 +97,6 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="CreatedUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="thac_serviceoption">
@@ -282,58 +281,6 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="cms_carouselModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="AspNetRole">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspnetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
-        </EntityType>
-        <EntityType Name="AspNetUserClaim">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
-        </EntityType>
-        <EntityType Name="AspnetUserLogin">
-          <Key>
-            <PropertyRef Name="LoginProvider" />
-            <PropertyRef Name="ProviderKey" />
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspnetUserLogins" ToRole="AspNetUsers" />
-        </EntityType>
-        <EntityType Name="AspNetUser">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
-          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
-          <NavigationProperty Name="AspnetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspnetUserLogins" />
-          <NavigationProperty Name="thac_serviceoption" Relationship="Self.FK_content_aspnetusers" FromRole="AspNetUsers" ToRole="thac_serviceoption" />
-          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspnetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
-        </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -344,22 +291,118 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
+        <EntityContainer Name="cms_carouselEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="AspNetRoles" EntityType="cms_carouselModel.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="cms_carouselModel.AspNetUserClaim" />
+          <EntitySet Name="AspnetUserLogins" EntityType="cms_carouselModel.AspnetUserLogin" />
+          <EntitySet Name="AspNetUsers" EntityType="cms_carouselModel.AspNetUser" />
+          <EntitySet Name="thac_country" EntityType="cms_carouselModel.thac_country" />
+          <EntitySet Name="thac_language" EntityType="cms_carouselModel.thac_language" />
+          <EntitySet Name="thac_languageoption" EntityType="cms_carouselModel.thac_languageoption" />
+          <EntitySet Name="thac_service" EntityType="cms_carouselModel.thac_service" />
+          <EntitySet Name="thac_serviceoption" EntityType="cms_carouselModel.thac_serviceoption" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="cms_carouselModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="cms_carouselModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspnetUserLogin" EntitySet="AspnetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_content_aspnetusers" Association="cms_carouselModel.FK_content_aspnetusers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="thac_serviceoption" EntitySet="thac_serviceoption" />
+          </AssociationSet>
+          <AssociationSet Name="FK_thaclanguageoption_thaccountry" Association="cms_carouselModel.FK_thaclanguageoption_thaccountry">
+            <End Role="thac_country" EntitySet="thac_country" />
+            <End Role="thac_languageoption" EntitySet="thac_languageoption" />
+          </AssociationSet>
+          <AssociationSet Name="FK_thaclanguageoption_thaclanguage" Association="cms_carouselModel.FK_thaclanguageoption_thaclanguage">
+            <End Role="thac_language" EntitySet="thac_language" />
+            <End Role="thac_languageoption" EntitySet="thac_languageoption" />
+          </AssociationSet>
+          <AssociationSet Name="FK_thacserviceoption_thaclanguageoption" Association="cms_carouselModel.FK_thacserviceoption_thaclanguageoption">
+            <End Role="thac_languageoption" EntitySet="thac_languageoption" />
+            <End Role="thac_serviceoption" EntitySet="thac_serviceoption" />
+          </AssociationSet>
+          <AssociationSet Name="FK_thac_serviceoption_thac_service" Association="cms_carouselModel.FK_thac_serviceoption_thac_service">
+            <End Role="thac_service" EntitySet="thac_service" />
+            <End Role="thac_serviceoption" EntitySet="thac_serviceoption" />
+          </AssociationSet>
+          <AssociationSet Name="AspnetUserRoles" Association="cms_carouselModel.AspnetUserRoles">
+            <End Role="AspNetRole" EntitySet="AspNetRoles" />
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="cms_carouselModel.AspnetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="cms_carouselModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspnetUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="cms_carouselModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspnetUserLogin" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="cms_carouselModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
+          <NavigationProperty Name="AspnetUserLogins" Relationship="cms_carouselModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspnetUserLogin" />
+          <NavigationProperty Name="thac_serviceoption" Relationship="cms_carouselModel.FK_content_aspnetusers" FromRole="AspNetUser" ToRole="thac_serviceoption" />
+          <NavigationProperty Name="AspNetRoles" Relationship="cms_carouselModel.AspnetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+        </EntityType>
         <EntityType Name="thac_country">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="NSId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="thac_languageoption" Relationship="Self.FK_thaclanguageoption_thaccountry" FromRole="thac_country" ToRole="thac_languageoption" />
+          <NavigationProperty Name="thac_languageoption" Relationship="cms_carouselModel.FK_thaclanguageoption_thaccountry" FromRole="thac_country" ToRole="thac_languageoption" />
         </EntityType>
         <EntityType Name="thac_language">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="thac_languageoption" Relationship="Self.FK_thaclanguageoption_thaclanguage" FromRole="thac_language" ToRole="thac_languageoption" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="thac_languageoption" Relationship="cms_carouselModel.FK_thaclanguageoption_thaclanguage" FromRole="thac_language" ToRole="thac_languageoption" />
         </EntityType>
         <EntityType Name="thac_languageoption">
           <Key>
@@ -368,67 +411,66 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CountryId" Type="Int32" Nullable="false" />
           <Property Name="LanguageId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="thac_country" Relationship="Self.FK_thaclanguageoption_thaccountry" FromRole="thac_languageoption" ToRole="thac_country" />
-          <NavigationProperty Name="thac_language" Relationship="Self.FK_thaclanguageoption_thaclanguage" FromRole="thac_languageoption" ToRole="thac_language" />
-          <NavigationProperty Name="thac_serviceoption" Relationship="Self.FK_thacserviceoption_thaclanguageoption" FromRole="thac_languageoption" ToRole="thac_serviceoption" />
+          <NavigationProperty Name="thac_country" Relationship="cms_carouselModel.FK_thaclanguageoption_thaccountry" FromRole="thac_languageoption" ToRole="thac_country" />
+          <NavigationProperty Name="thac_language" Relationship="cms_carouselModel.FK_thaclanguageoption_thaclanguage" FromRole="thac_languageoption" ToRole="thac_language" />
+          <NavigationProperty Name="thac_serviceoption" Relationship="cms_carouselModel.FK_thacserviceoption_thaclanguageoption" FromRole="thac_languageoption" ToRole="thac_serviceoption" />
         </EntityType>
         <EntityType Name="thac_service">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="CreatedUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="thac_serviceoption" Relationship="Self.FK_thac_serviceoption_thac_service" FromRole="thac_service" ToRole="thac_serviceoption" />
+          <NavigationProperty Name="thac_serviceoption" Relationship="cms_carouselModel.FK_thac_serviceoption_thac_service" FromRole="thac_service" ToRole="thac_serviceoption" />
         </EntityType>
         <EntityType Name="thac_serviceoption">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CreatedUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="ServiceId" Type="Int32" Nullable="false" />
           <Property Name="LanguageOptionId" Type="Int32" Nullable="false" />
-          <Property Name="ContentMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContentMessage" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_content_aspnetusers" FromRole="thac_serviceoption" ToRole="AspNetUsers" />
-          <NavigationProperty Name="thac_languageoption" Relationship="Self.FK_thacserviceoption_thaclanguageoption" FromRole="thac_serviceoption" ToRole="thac_languageoption" />
-          <NavigationProperty Name="thac_service" Relationship="Self.FK_thac_serviceoption_thac_service" FromRole="thac_serviceoption" ToRole="thac_service" />
+          <NavigationProperty Name="AspNetUser" Relationship="cms_carouselModel.FK_content_aspnetusers" FromRole="thac_serviceoption" ToRole="AspNetUser" />
+          <NavigationProperty Name="thac_languageoption" Relationship="cms_carouselModel.FK_thacserviceoption_thaclanguageoption" FromRole="thac_serviceoption" ToRole="thac_languageoption" />
+          <NavigationProperty Name="thac_service" Relationship="cms_carouselModel.FK_thac_serviceoption_thac_service" FromRole="thac_serviceoption" ToRole="thac_service" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+          <End Type="cms_carouselModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaim" Multiplicity="*" />
+          <End Type="cms_carouselModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
+            <Principal Role="AspNetUser">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="AspNetUserClaims">
+            <Dependent Role="AspNetUserClaim">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+          <End Type="cms_carouselModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="AspnetUserLogins" Type="Self.AspnetUserLogin" Multiplicity="*" />
+          <End Type="cms_carouselModel.AspnetUserLogin" Role="AspnetUserLogin" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
+            <Principal Role="AspNetUser">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="AspnetUserLogins">
+            <Dependent Role="AspnetUserLogin">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_content_aspnetusers">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
-          <End Role="thac_serviceoption" Type="Self.thac_serviceoption" Multiplicity="*" />
+          <End Type="cms_carouselModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="cms_carouselModel.thac_serviceoption" Role="thac_serviceoption" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
+            <Principal Role="AspNetUser">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="thac_serviceoption">
@@ -437,8 +479,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_thaclanguageoption_thaccountry">
-          <End Role="thac_country" Type="Self.thac_country" Multiplicity="1" />
-          <End Role="thac_languageoption" Type="Self.thac_languageoption" Multiplicity="*" />
+          <End Type="cms_carouselModel.thac_country" Role="thac_country" Multiplicity="1" />
+          <End Type="cms_carouselModel.thac_languageoption" Role="thac_languageoption" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="thac_country">
               <PropertyRef Name="Id" />
@@ -449,8 +491,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_thaclanguageoption_thaclanguage">
-          <End Role="thac_language" Type="Self.thac_language" Multiplicity="1" />
-          <End Role="thac_languageoption" Type="Self.thac_languageoption" Multiplicity="*" />
+          <End Type="cms_carouselModel.thac_language" Role="thac_language" Multiplicity="1" />
+          <End Type="cms_carouselModel.thac_languageoption" Role="thac_languageoption" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="thac_language">
               <PropertyRef Name="Id" />
@@ -461,8 +503,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_thacserviceoption_thaclanguageoption">
-          <End Role="thac_languageoption" Type="Self.thac_languageoption" Multiplicity="1" />
-          <End Role="thac_serviceoption" Type="Self.thac_serviceoption" Multiplicity="*" />
+          <End Type="cms_carouselModel.thac_languageoption" Role="thac_languageoption" Multiplicity="1" />
+          <End Type="cms_carouselModel.thac_serviceoption" Role="thac_serviceoption" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="thac_languageoption">
               <PropertyRef Name="Id" />
@@ -473,10 +515,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_thac_serviceoption_thac_service">
-          <End Role="thac_service" Type="Self.thac_service" Multiplicity="1">
+          <End Type="cms_carouselModel.thac_service" Role="thac_service" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="thac_serviceoption" Type="Self.thac_serviceoption" Multiplicity="*" />
+          <End Type="cms_carouselModel.thac_serviceoption" Role="thac_serviceoption" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="thac_service">
               <PropertyRef Name="Id" />
@@ -487,106 +529,15 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="AspnetUserRoles">
-          <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
+          <End Type="cms_carouselModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+          <End Type="cms_carouselModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="cms_carouselEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
-          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
-          <EntitySet Name="AspnetUserLogins" EntityType="Self.AspnetUserLogin" />
-          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
-          <EntitySet Name="thac_country" EntityType="Self.thac_country" />
-          <EntitySet Name="thac_language" EntityType="Self.thac_language" />
-          <EntitySet Name="thac_languageoption" EntityType="Self.thac_languageoption" />
-          <EntitySet Name="thac_service" EntityType="Self.thac_service" />
-          <EntitySet Name="thac_serviceoption" EntityType="Self.thac_serviceoption" />
-          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspnetUserLogins" EntitySet="AspnetUserLogins" />
-          </AssociationSet>
-          <AssociationSet Name="FK_content_aspnetusers" Association="Self.FK_content_aspnetusers">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="thac_serviceoption" EntitySet="thac_serviceoption" />
-          </AssociationSet>
-          <AssociationSet Name="FK_thaclanguageoption_thaccountry" Association="Self.FK_thaclanguageoption_thaccountry">
-            <End Role="thac_country" EntitySet="thac_country" />
-            <End Role="thac_languageoption" EntitySet="thac_languageoption" />
-          </AssociationSet>
-          <AssociationSet Name="FK_thaclanguageoption_thaclanguage" Association="Self.FK_thaclanguageoption_thaclanguage">
-            <End Role="thac_language" EntitySet="thac_language" />
-            <End Role="thac_languageoption" EntitySet="thac_languageoption" />
-          </AssociationSet>
-          <AssociationSet Name="FK_thacserviceoption_thaclanguageoption" Association="Self.FK_thacserviceoption_thaclanguageoption">
-            <End Role="thac_languageoption" EntitySet="thac_languageoption" />
-            <End Role="thac_serviceoption" EntitySet="thac_serviceoption" />
-          </AssociationSet>
-          <AssociationSet Name="FK_thac_serviceoption_thac_service" Association="Self.FK_thac_serviceoption_thac_service">
-            <End Role="thac_service" EntitySet="thac_service" />
-            <End Role="thac_serviceoption" EntitySet="thac_serviceoption" />
-          </AssociationSet>
-          <AssociationSet Name="AspnetUserRoles" Association="Self.AspnetUserRoles">
-            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="cms_carouselModelStoreContainer" CdmEntityContainer="cms_carouselEntities">
-          <EntitySetMapping Name="AspNetRoles">
-            <EntityTypeMapping TypeName="cms_carouselModel.AspNetRole">
-              <MappingFragment StoreEntitySet="AspNetRoles">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUserClaims">
-            <EntityTypeMapping TypeName="cms_carouselModel.AspNetUserClaim">
-              <MappingFragment StoreEntitySet="AspNetUserClaims">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
-                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspnetUserLogins">
-            <EntityTypeMapping TypeName="cms_carouselModel.AspnetUserLogin">
-              <MappingFragment StoreEntitySet="AspnetUserLogins">
-                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
-                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUsers">
-            <EntityTypeMapping TypeName="cms_carouselModel.AspNetUser">
-              <MappingFragment StoreEntitySet="AspNetUsers">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="cms_carouselModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
@@ -598,60 +549,106 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="cms_carouselModel.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="cms_carouselModel.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspnetUserLogins">
+            <EntityTypeMapping TypeName="cms_carouselModel.AspnetUserLogin">
+              <MappingFragment StoreEntitySet="AspnetUserLogins">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="cms_carouselModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="thac_country">
             <EntityTypeMapping TypeName="cms_carouselModel.thac_country">
               <MappingFragment StoreEntitySet="thac_country">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="NSId" ColumnName="NSId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="thac_language">
             <EntityTypeMapping TypeName="cms_carouselModel.thac_language">
               <MappingFragment StoreEntitySet="thac_language">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="thac_languageoption">
             <EntityTypeMapping TypeName="cms_carouselModel.thac_languageoption">
               <MappingFragment StoreEntitySet="thac_languageoption">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="thac_service">
             <EntityTypeMapping TypeName="cms_carouselModel.thac_service">
               <MappingFragment StoreEntitySet="thac_service">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="CreatedUserId" ColumnName="CreatedUserId" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="thac_serviceoption">
             <EntityTypeMapping TypeName="cms_carouselModel.thac_serviceoption">
               <MappingFragment StoreEntitySet="thac_serviceoption">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="CreatedUserId" ColumnName="CreatedUserId" />
-                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
-                <ScalarProperty Name="LanguageOptionId" ColumnName="LanguageOptionId" />
-                <ScalarProperty Name="ContentMessage" ColumnName="ContentMessage" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ContentMessage" ColumnName="ContentMessage" />
+                <ScalarProperty Name="LanguageOptionId" ColumnName="LanguageOptionId" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="CreatedUserId" ColumnName="CreatedUserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <AssociationSetMapping Name="AspnetUserRoles" TypeName="cms_carouselModel.AspnetUserRoles" StoreEntitySet="AspnetUserRoles">
-            <EndProperty Name="AspNetRoles">
-              <ScalarProperty Name="Id" ColumnName="RoleId" />
-            </EndProperty>
-            <EndProperty Name="AspNetUsers">
+            <EndProperty Name="AspNetUser">
               <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRole">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>
