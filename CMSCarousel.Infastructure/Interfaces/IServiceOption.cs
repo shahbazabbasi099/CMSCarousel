@@ -9,6 +9,8 @@ namespace CMSCarousel.Infastructure.Interfaces
 {
     public interface IServiceOption
     {
-        int InsertServiceOption(thac_serviceoption ServiceOption);
+        int InsertServiceOption(AddContent AddContent);
+
+
     }
 }

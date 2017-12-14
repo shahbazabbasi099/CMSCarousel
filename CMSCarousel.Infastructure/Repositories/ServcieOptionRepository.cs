@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CMSCarousel.Entities;
+using Dapper;
 
 namespace CMSCarousel.Infastructure.Repositories
 {
@@ -19,11 +20,24 @@ namespace CMSCarousel.Infastructure.Repositories
             _connection.ConnectionString = conString;
         }
 
-        public int InsertServiceOption(thac_serviceoption ServiceOption)
+        public int InsertServiceOption(AddContent addcontent)
         {
-             
+           
+            var parameters = new DynamicParameters();
+            parameters.Add("CountryId", addcontent.CountryId, DbType.String, ParameterDirection.Input);
+            parameters.Add("LanguageId", addcontent.LanguageId, DbType.Int32, ParameterDirection.Input);
+            parameters.Add("CreatedUserId", addcontent.CreatedUserId, DbType.String, ParameterDirection.Input);
+            parameters.Add("ServiceId", addcontent.ServiceId, DbType.Int32, ParameterDirection.Input);
+            parameters.Add("ContentMessage", addcontent.ContentMessage, DbType.String, ParameterDirection.Input);
 
-            throw new NotImplementedException();
+
+
+            parameters.Add("ReturnValue", null, DbType.Int32, ParameterDirection.Output);
+            parameters.Add("ErrorCode", null, DbType.Int32, ParameterDirection.Output);
+            parameters.Add("ErrorMessage", null, DbType.String, ParameterDirection.Output);
+
+            Execute("sp_InsertCountry", parameters);
+            return parameters.Get<int>("ReturnValue");
         }
     }
        

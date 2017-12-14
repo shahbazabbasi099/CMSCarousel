@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddContent.cs" />
     <Compile Include="AspNetRole.cs">
       <DependentUpon>CMSModel.tt</DependentUpon>
     </Compile>
