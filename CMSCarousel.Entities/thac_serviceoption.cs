@@ -20,6 +20,7 @@ namespace CMSCarousel.Entities
         public int LanguageOptionId { get; set; }
         public string ContentMessage { get; set; }
         public System.DateTime CreatedDate { get; set; }
+        public bool IsActive { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual thac_languageoption thac_languageoption { get; set; }
