@@ -82,6 +82,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ISOCode" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="thac_languageoption">
           <Key>
@@ -404,6 +405,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ISOCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="thac_languageoption" Relationship="cms_carouselModel.FK_thaclanguageoption_thaclanguage" FromRole="thac_language" ToRole="thac_languageoption" />
         </EntityType>
         <EntityType Name="thac_languageoption">
@@ -612,6 +614,7 @@
           <EntitySetMapping Name="thac_language">
             <EntityTypeMapping TypeName="cms_carouselModel.thac_language">
               <MappingFragment StoreEntitySet="thac_language">
+                <ScalarProperty Name="ISOCode" ColumnName="ISOCode" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
