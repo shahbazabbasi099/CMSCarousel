@@ -20,6 +20,11 @@ namespace CMSCarousel.Infastructure.Repositories
             _connection.ConnectionString = conString;
         }
 
+        public thac_serviceoption GetServiceOptionByID(int countryId, int languageId, int servcieId)
+        {
+            return Query<thac_serviceoption>("sp_GetContentByServcieId", new { CountryId = countryId , LanguageId = languageId , ServiceId = servcieId }).FirstOrDefault();
+        }
+
         public int InsertServiceOption(AddContent addcontent)
         {
            
@@ -28,15 +33,15 @@ namespace CMSCarousel.Infastructure.Repositories
             parameters.Add("LanguageId", addcontent.LanguageId, DbType.Int32, ParameterDirection.Input);
             parameters.Add("CreatedUserId", addcontent.CreatedUserId, DbType.String, ParameterDirection.Input);
             parameters.Add("ServiceId", addcontent.ServiceId, DbType.Int32, ParameterDirection.Input);
+            parameters.Add("IsActive", addcontent.IsActive, DbType.Boolean, ParameterDirection.Input);
             parameters.Add("ContentMessage", addcontent.ContentMessage, DbType.String, ParameterDirection.Input);
-
-
+            
 
             parameters.Add("ReturnValue", null, DbType.Int32, ParameterDirection.Output);
             parameters.Add("ErrorCode", null, DbType.Int32, ParameterDirection.Output);
             parameters.Add("ErrorMessage", null, DbType.String, ParameterDirection.Output);
 
-            Execute("sp_InsertCountry", parameters);
+            Execute("sp_InsertContent", parameters);
             return parameters.Get<int>("ReturnValue");
         }
     }

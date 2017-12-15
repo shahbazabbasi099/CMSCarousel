@@ -110,6 +110,7 @@
           <Property Name="LanguageOptionId" Type="int" Nullable="false" />
           <Property Name="ContentMessage" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK_content_aspnetusers">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
@@ -436,6 +437,7 @@
           <Property Name="LanguageOptionId" Type="Int32" Nullable="false" />
           <Property Name="ContentMessage" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="AspNetUser" Relationship="cms_carouselModel.FK_content_aspnetusers" FromRole="thac_serviceoption" ToRole="AspNetUser" />
           <NavigationProperty Name="thac_languageoption" Relationship="cms_carouselModel.FK_thacserviceoption_thaclanguageoption" FromRole="thac_serviceoption" ToRole="thac_languageoption" />
           <NavigationProperty Name="thac_service" Relationship="cms_carouselModel.FK_thac_serviceoption_thac_service" FromRole="thac_serviceoption" ToRole="thac_service" />
@@ -637,6 +639,7 @@
           <EntitySetMapping Name="thac_serviceoption">
             <EntityTypeMapping TypeName="cms_carouselModel.thac_serviceoption">
               <MappingFragment StoreEntitySet="thac_serviceoption">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="ContentMessage" ColumnName="ContentMessage" />
                 <ScalarProperty Name="LanguageOptionId" ColumnName="LanguageOptionId" />
