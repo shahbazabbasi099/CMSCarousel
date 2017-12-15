@@ -19,4 +19,11 @@ namespace CMSCarousel.Entities
         public string ContentMessage { get; set; }
         public DateTime CreatedDate { get; set; }
     }
+    public class AddContentViewModel
+    {
+        public List<thac_country> Countries { get; set; }
+        public List<thac_service> Services { get; set; }
+        public List<thac_language> Languages { get; set; }
+        
+    }
 }

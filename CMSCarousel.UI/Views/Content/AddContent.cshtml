@@ -1,0 +1,174 @@
+﻿@using CMSCarousel.Entities;
+@model AddContentViewModel
+
+@{
+    ViewBag.Title = "AddContent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+
+    .Main_Container {
+        margin: 25px 5px;
+        border: 1px solid #044886;
+        min-height: 405px;
+        
+    }
+    .Page_Heading {
+        padding: 10px;
+        text-transform: uppercase;
+        background-color: #044886;
+        border-radius: 2px;
+        text-align: left;
+        color: white;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+   
+
+</style>
+
+
+<div class="Main_Container">
+
+    <div class="Page_Heading">Add Content</div>
+
+
+
+    <form style="padding:20px;">
+
+        <div class="row">
+            <div class="col-xs-3">
+                <div class="form-group">
+                    <label for="sel1">Country</label>
+                    <select class="form-control" id="drpCountry">
+                        @if (Model.Countries != null)
+                        {
+                            foreach (thac_country country in Model.Countries)
+                            {
+                                <option value="@country.Id">@country.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-3">
+                <div class="form-group">
+                    <label for="sel1">Language</label>
+                    <select class="form-control" id="drpLanguage">
+                        @if (Model.Languages != null)
+                        {
+                            foreach (thac_language language in Model.Languages)
+                            {
+                                <option value="@language.Id">@language.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>      
+
+        <div class="row">
+
+            @if (Model.Services != null)
+            {
+                foreach (thac_service service in Model.Services)
+                {
+                    <div onclick="GetContent('@service.Id','@service.Name')" class="col-xs-2" style="width:90px !important;cursor:pointer">
+                        <img style="height: 65px;width: 80px;" src="~/Content/Images/ServicesIcon/@service.ImageUrl" />
+                        <div style="width:80px;text-align:center">@service.Name</div>
+                    </div>
+                }
+            }
+            
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div style="display:none" id="divIsEnabled" class="form-group">                    
+                    <input type="checkbox" id="chkIsEnabled"  /> <span id="spanIsEnabledServiceName"></span>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-xs-10">
+                <div class="form-group">
+                    <label for="sel1">Content</label>
+                    <textarea id="editorContent" class="form-control" name="editorContent"></textarea>
+                </div>
+            </div>
+        </div>       
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <input id="btnSave" type="button" class="btn-success" value="Save Content" />
+                </div>
+            </div>
+        </div>
+
+
+    </form>
+
+
+</div>
+
+@section  Scripts
+{
+   
+@*<script src="~/Scripts/ckeditor_4.8.0/ckeditor_4.8.0.js"></script>*@
+<script src="https://cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('editorContent');
+    </script>
+
+    <script type="text/javascript">
+
+        $(document).ready({
+
+
+        });
+
+        function GetContent(serviceId, serviceName)
+        {
+            
+            $.ajax({
+                type: "POST",
+                traditional: true,
+                url: "/Content/GetContent",
+                data: "{serviceId: '" + serviceId + "', languageId: '" + $("#drpLanguage").val() + "', countryId: '" + $("#drpCountry").val() + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data != "") {
+
+                        $("#spanIsEnabledServiceName").text(serviceName);
+                        if (data.IsActive == true) {
+                            $("#chkIsEnabled").attr("checked", true);
+                        }
+                        else {
+                            $("#chkIsEnabled").attr("checked", false);
+                        }
+                        $("#divIsEnabled").show();
+                        CKEDITOR.instances['editorContent'].setData(data.ContentMessage);
+                    }
+                    else {
+
+                        $("#divIsEnabled").hide();
+                        CKEDITOR.instances['editorContent'].setData("");
+                    }
+
+                },
+                error: function (request, status, errorThrown) {
+
+                    alert("Error: " + errorThrown);
+                    $("#divIsEnabled").hide();
+
+                }
+            });
+
+        }
+
+    </script>
+
+}

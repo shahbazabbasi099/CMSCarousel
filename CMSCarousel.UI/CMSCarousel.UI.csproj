@@ -257,6 +257,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ContentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MeController.cs" />
@@ -279,6 +280,16 @@
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\ServicesIcon\Balance.png" />
+    <Content Include="Content\Images\ServicesIcon\Bundles.png" />
+    <Content Include="Content\Images\ServicesIcon\Call.png" />
+    <Content Include="Content\Images\ServicesIcon\Help.png" />
+    <Content Include="Content\Images\ServicesIcon\Messages.png" />
+    <Content Include="Content\Images\ServicesIcon\PlusOne.png" />
+    <Content Include="Content\Images\ServicesIcon\Rates.png" />
+    <Content Include="Content\Images\ServicesIcon\Settings.png" />
+    <Content Include="Content\Images\ServicesIcon\TopUp.png" />
+    <Content Include="Content\Images\ServicesIcon\Transfer.png" />
     <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -312,6 +323,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\ckeditor_4.8.0\ckeditor_4.8.0.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -362,6 +374,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\Content\AddContent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
