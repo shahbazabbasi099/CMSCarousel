@@ -17,6 +17,7 @@ namespace CMSCarousel.Entities
         public int CountryId { get; set; }
         public int LanguageId { get; set; }
         public string ContentMessage { get; set; }
+        public bool IsActive { get; set; }
         public DateTime CreatedDate { get; set; }
     }
 }

@@ -33,7 +33,7 @@ namespace CMSCarousel.Infastructure.Repositories
             parameters.Add("LanguageId", addcontent.LanguageId, DbType.Int32, ParameterDirection.Input);
             parameters.Add("CreatedUserId", addcontent.CreatedUserId, DbType.String, ParameterDirection.Input);
             parameters.Add("ServiceId", addcontent.ServiceId, DbType.Int32, ParameterDirection.Input);
-           // parameters.Add("ServiceId", addcontent.ServiceId, DbType.Int32, ParameterDirection.Input);
+            parameters.Add("IsActive", addcontent.IsActive, DbType.Boolean, ParameterDirection.Input);
             parameters.Add("ContentMessage", addcontent.ContentMessage, DbType.String, ParameterDirection.Input);
             
 
@@ -41,7 +41,7 @@ namespace CMSCarousel.Infastructure.Repositories
             parameters.Add("ErrorCode", null, DbType.Int32, ParameterDirection.Output);
             parameters.Add("ErrorMessage", null, DbType.String, ParameterDirection.Output);
 
-            Execute("sp_InsertCountry", parameters);
+            Execute("sp_InsertContent", parameters);
             return parameters.Get<int>("ReturnValue");
         }
     }
