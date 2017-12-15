@@ -98,6 +98,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="ImageUrl" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="thac_serviceoption">
           <Key>
@@ -422,6 +423,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ImageUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="thac_serviceoption" Relationship="cms_carouselModel.FK_thac_serviceoption_thac_service" FromRole="thac_service" ToRole="thac_serviceoption" />
         </EntityType>
         <EntityType Name="thac_serviceoption">
@@ -625,6 +627,7 @@
           <EntitySetMapping Name="thac_service">
             <EntityTypeMapping TypeName="cms_carouselModel.thac_service">
               <MappingFragment StoreEntitySet="thac_service">
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -651,7 +654,7 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

@@ -5,15 +5,15 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="08adfc145a4f4ebab8946067018aac36" Name="Diagram1">
-        <EntityTypeShape EntityType="cms_carouselModel.AspNetRole" Width="1.5" PointX="0.75" PointY="5.25" />
-        <EntityTypeShape EntityType="cms_carouselModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="9.875" />
-        <EntityTypeShape EntityType="cms_carouselModel.AspnetUserLogin" Width="1.5" PointX="5.25" PointY="3.875" />
-        <EntityTypeShape EntityType="cms_carouselModel.AspNetUser" Width="1.5" PointX="3" PointY="3.875" />
-        <EntityTypeShape EntityType="cms_carouselModel.thac_country" Width="1.5" PointX="3.75" PointY="15.625" />
-        <EntityTypeShape EntityType="cms_carouselModel.thac_language" Width="1.5" PointX="3.75" PointY="13.25" />
-        <EntityTypeShape EntityType="cms_carouselModel.thac_languageoption" Width="1.5" PointX="6" PointY="14.25" />
-        <EntityTypeShape EntityType="cms_carouselModel.thac_service" Width="1.5" PointX="6" PointY="0.75" />
-        <EntityTypeShape EntityType="cms_carouselModel.thac_serviceoption" Width="1.5" PointX="8.25" PointY="4.75" />
+        <EntityTypeShape EntityType="cms_carouselModel.AspNetRole" Width="1.5" PointX="0.75" PointY="5.375" />
+        <EntityTypeShape EntityType="cms_carouselModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="7.375" />
+        <EntityTypeShape EntityType="cms_carouselModel.AspnetUserLogin" Width="1.5" PointX="5.25" PointY="10.125" />
+        <EntityTypeShape EntityType="cms_carouselModel.AspNetUser" Width="1.5" PointX="3" PointY="4" />
+        <EntityTypeShape EntityType="cms_carouselModel.thac_country" Width="1.5" PointX="0.75" PointY="11.875" />
+        <EntityTypeShape EntityType="cms_carouselModel.thac_language" Width="1.5" PointX="0.75" PointY="9.5" />
+        <EntityTypeShape EntityType="cms_carouselModel.thac_languageoption" Width="1.5" PointX="3" PointY="10.5" />
+        <EntityTypeShape EntityType="cms_carouselModel.thac_service" Width="1.5" PointX="3" PointY="0.75" />
+        <EntityTypeShape EntityType="cms_carouselModel.thac_serviceoption" Width="1.5" PointX="5.25" PointY="3.75" />
         <AssociationConnector Association="cms_carouselModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="cms_carouselModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="cms_carouselModel.FK_content_aspnetusers" />
