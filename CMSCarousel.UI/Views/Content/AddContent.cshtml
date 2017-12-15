@@ -74,18 +74,20 @@
             {
                 foreach (thac_service service in Model.Services)
                 {
-                    <div onclick="GetContent('@service.Id','@service.Name')" class="col-xs-2" style="width:90px !important;cursor:pointer">
+                    <div onclick="GetContent('@service.Id')" class="col-xs-2" style="width:90px !important;cursor:pointer">
                         <img style="height: 65px;width: 80px;" src="~/Content/Images/ServicesIcon/@service.ImageUrl" />
-                        <div style="width:80px;text-align:center">@service.Name</div>
+                        <div id="divServiceName_@service.Id" style="width:80px;text-align:center">@service.Name</div>
                     </div>
                 }
             }
-            
+
+            <input type="text" id="txtServiceId" style="display:none" />
         </div>
+        <br />
         <div class="row">
             <div class="col-xs-12">
-                <div style="display:none" id="divIsEnabled" class="form-group">                    
-                    <input type="checkbox" id="chkIsEnabled"  /> <span id="spanIsEnabledServiceName"></span>
+                <div style="display:block" id="divIsEnabled" class="form-group">                    
+                    <input type="checkbox" id="chkIsEnabled"  /><b> IsActive</b> 
                 </div>
             </div>
         </div>
@@ -101,7 +103,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="form-group">
-                    <input id="btnSave" type="button" class="btn-success" value="Save Content" />
+                    <input id="btnSave" onclick="SaveContent()" type="button" class="btn-success" value="Save Content" />
                 </div>
             </div>
         </div>
@@ -128,9 +130,63 @@
 
         });
 
-        function GetContent(serviceId, serviceName)
+
+        function SaveContent()
         {
-            
+
+            if ($("#txtServiceId").val() == "")
+            {
+                alert("Please select service.");
+            }
+            else
+            {
+                if (CKEDITOR.instances['editorContent'].getData() == "")
+                {
+                    alert("Please enter content in content box.");
+                }
+                else
+                {
+                    $.ajax({
+                        type: "POST",
+                        traditional: true,
+                        url: "/Content/SaveContent",
+                        data: "{serviceId: '" + $("#txtServiceId").val() + "', languageId: '" + $("#drpLanguage").val() + "', countryId: '" + $("#drpCountry").val() + "', isActive: '" + $("#chkIsEnabled").prop("checked") + "', content: '" + CKEDITOR.instances['editorContent'].getData() + "'}",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+
+                            // Success
+                            if (data.Result > 0) {
+
+                                alert("Content saved successfully.");
+                            }
+                            //Error
+                            else {
+
+                                if (data.Result == -1) {
+
+                                    alert(data.ErrorMessage);
+                                }
+                                
+                            }
+
+                        },
+                        error: function (request, status, errorThrown) {
+
+                            alert("Error: " + errorThrown);                           
+
+                        }
+                    });
+                }
+            }
+        }
+
+        function GetContent(serviceId)
+        {
+
+            $("#txtServiceId").val(serviceId);
+            $("div[id^='divServiceName_']").attr("style", "width:80px;text-align:center;");
+            $("#divServiceName_" + serviceId).attr("style", "width:80px;text-align:center;font-weight:bold;color:red;");
             $.ajax({
                 type: "POST",
                 traditional: true,
@@ -140,29 +196,34 @@
                 dataType: "json",
                 success: function (data) {
 
-                    if (data != "") {
+                    // Success
+                    if (data.ErrorStatus == 0) {
 
-                        $("#spanIsEnabledServiceName").text(serviceName);
-                        if (data.IsActive == true) {
-                            $("#chkIsEnabled").attr("checked", true);
+                                            
+                        if (data.ServiceOption.IsActive == true) {
+                            $("#chkIsEnabled").prop("checked", true);
                         }
                         else {
-                            $("#chkIsEnabled").attr("checked", false);
+                            $("#chkIsEnabled").prop("checked", false);
                         }
-                        $("#divIsEnabled").show();
-                        CKEDITOR.instances['editorContent'].setData(data.ContentMessage);
+                        
+                        CKEDITOR.instances['editorContent'].setData(data.ServiceOption.ContentMessage);
                     }
+                    //Error
                     else {
 
-                        $("#divIsEnabled").hide();
+                        if (data.ErrorMessage != "Data Not Found") {
+                            
+                            alert(data.ErrorMessage);
+                        }                        
                         CKEDITOR.instances['editorContent'].setData("");
+                        $("#chkIsEnabled").attr("checked", false);
                     }
 
                 },
                 error: function (request, status, errorThrown) {
 
-                    alert("Error: " + errorThrown);
-                    $("#divIsEnabled").hide();
+                    alert("Error: " + errorThrown);                   
 
                 }
             });
