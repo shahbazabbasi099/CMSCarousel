@@ -12,5 +12,7 @@ namespace CMSCarousel.Infastructure.Interfaces
         int InsertServiceOption(AddContent addContent);
 
         thac_serviceoption GetServiceOptionByID(int countryId, int languageId, int servcieId);
+
+        List<ViewContent> GetAllContent();
     }
 }

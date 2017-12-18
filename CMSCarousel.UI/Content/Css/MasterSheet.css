@@ -1,0 +1,16 @@
+﻿.Main_Container {
+    margin: 25px 5px;
+    border: 1px solid #044886;
+    min-height: 405px;
+}
+
+.Page_Heading {
+    padding: 10px;
+    text-transform: uppercase;
+    background-color: #044886;
+    border-radius: 2px;
+    text-align: left;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 15px;
+}

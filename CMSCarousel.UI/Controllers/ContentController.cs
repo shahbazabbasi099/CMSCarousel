@@ -1,5 +1,7 @@
 ﻿using CMSCarousel.Entities;
 using CMSCarousel.Infastructure.Interfaces;
+using CMSCarousel.UI.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ using System.Web.Mvc;
 namespace CMSCarousel.UI.Controllers
 {
 
-   // [Authorize]
+   [Authorize]
     public class ContentController : Controller
     {
 
@@ -26,7 +28,8 @@ namespace CMSCarousel.UI.Controllers
             this.iServiceOption = iServiceOption;
         }
 
-        // GET: Content
+        #region AddContent Page
+
         public ActionResult AddContent()
         {
             AddContentViewModel contentModel = new AddContentViewModel();
@@ -80,13 +83,17 @@ namespace CMSCarousel.UI.Controllers
             try
             {
                 AddContent addContent = new AddContent();
+
+                var userID = User.Identity.GetUserId();
+
+                addContent.CreatedUserId = userID;//"00dc06ad-0743-422b-8a79-f14f4a5340cb";
                 addContent.ServiceId = int.Parse(serviceId);
                 addContent.LanguageId = int.Parse(languageId);
                 addContent.CountryId = int.Parse(countryId);
                 addContent.IsActive = isActive;
                 addContent.ContentMessage = content;
-                addContent.CreatedDate = DateTime.Now;
-                addContent.CreatedUserId = "sdsfg";
+                //addContent.CreatedDate = DateTime.Now;
+               
                 int result = iServiceOption.InsertServiceOption(addContent);
                 var response = new {Result = result, ErrorMessage = "" };
                 return Json(response);
@@ -99,5 +106,28 @@ namespace CMSCarousel.UI.Controllers
            
         }
 
+
+        #endregion AddContent Page
+
+
+
+
+        #region ViewContent Page
+
+        public ActionResult ViewContent()
+        {
+            List<ViewContent> content = null;
+            try
+            {
+                content = iServiceOption.GetAllContent();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return View(content);
+        }
+
+        #endregion ViewContent Page
     }
 }

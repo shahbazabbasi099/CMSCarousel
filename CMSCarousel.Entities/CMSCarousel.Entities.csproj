@@ -96,6 +96,7 @@
     <Compile Include="thac_serviceoption.cs">
       <DependentUpon>CMSModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ViewContent.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="CMSModel.edmx">

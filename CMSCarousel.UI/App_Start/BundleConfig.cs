@@ -33,6 +33,9 @@ namespace CMSCarousel.UI
             // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                 "~/Scripts/modernizr-*"));
+            bundles.Add(new ScriptBundle("~/bundles/DataTable").Include(
+               "~/Content/Javascript/DataTables/jquery.js",
+                "~/Content/Javascript/DataTables/jquery.dataTables.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                 "~/Scripts/bootstrap.js",
@@ -40,7 +43,9 @@ namespace CMSCarousel.UI
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                  "~/Content/bootstrap.css",
-                 "~/Content/Site.css"));
+                 "~/Content/Site.css",
+                 "~/Content/Css/MasterSheet.css",
+                 "~/Content/Javascript/DataTables/css/demo_table.css"));
         }
     }
 }

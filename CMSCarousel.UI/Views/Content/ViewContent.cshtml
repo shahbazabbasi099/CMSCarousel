@@ -1,0 +1,92 @@
+﻿@using CMSCarousel.Entities;
+@model IEnumerable<ViewContent>
+@{
+    ViewBag.Title = "ViewContent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Scripts.Render("~/bundles/DataTable")
+<script type="text/javascript">
+
+         var oTable;
+
+         $(document).ready(function () {
+
+
+             oTable = $('#tblViewContent').dataTable({
+
+                 "sPaginationType": "full_numbers",
+                 "aaSorting": [[0, "desc"]],
+                 "fnDrawCallback": function () {
+
+                 },
+
+             });
+
+         });
+
+</script>
+
+<div class="Main_Container">
+
+    <div class="Page_Heading">View Content</div>
+
+
+
+    <div style="padding:20px;">
+
+        <table id="tblViewContent" cellpadding="0" cellspacing="0" border="0" class="display" width="95%">
+            <thead style="background-color: #DEDEDE; color: gray; font-family: Arial; font-size: 10pt">
+                <tr style="border:1px solid black">
+                    <th>Country</th>
+                    <th>Language</th>
+                    <th>Service</th>
+                    <th>Message</th>
+                    <th>Status</th>
+                    <th>User</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+                @if (Model != null)
+                {
+                    foreach (ViewContent data in Model)
+                    {
+
+                        <tr>
+                            <td style="border:1px solid gray">@data.Country</td>
+                            <td style="border:1px solid gray">@data.Language</td>
+                            <td style="border:1px solid gray">@data.ServiceName</td>
+                            <td style="border:1px solid gray">@Html.Raw(data.ContentMessage)</td>
+                            @if (data.IsActive == 1)
+                            {
+                                <td style="border:1px solid gray">Active</td>
+                            }
+                            else
+                            {
+                                <td style="border:1px solid gray">Disabled</td>
+                            }
+                            <td style="border:1px solid gray">@data.UserName</td>
+                            <td style="border:1px solid gray">@data.CreatedDate</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td style="border:1px solid gray" colspan="7">Data not found.</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+        <br />
+        <br />
+
+    </div>
+
+
+</div>
+

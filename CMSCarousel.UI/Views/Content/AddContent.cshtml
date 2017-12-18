@@ -6,28 +6,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style type="text/css">
-
-    .Main_Container {
-        margin: 25px 5px;
-        border: 1px solid #044886;
-        min-height: 405px;
-        
-    }
-    .Page_Heading {
-        padding: 10px;
-        text-transform: uppercase;
-        background-color: #044886;
-        border-radius: 2px;
-        text-align: left;
-        color: white;
-        font-weight: bold;
-        margin-bottom: 15px;
-    }
-   
-
-</style>
-
 
 <div class="Main_Container">
 
@@ -40,7 +18,7 @@
         <div class="row">
             <div class="col-xs-3">
                 <div class="form-group">
-                    <label for="sel1">Country</label>
+                    <label class="text-info" for="sel1">Country</label>
                     <select class="form-control" id="drpCountry">
                         @if (Model.Countries != null)
                         {
@@ -54,7 +32,7 @@
             </div>
             <div class="col-xs-3">
                 <div class="form-group">
-                    <label for="sel1">Language</label>
+                    <label class="text-info" for="sel1">Language</label>
                     <select class="form-control" id="drpLanguage">
                         @if (Model.Languages != null)
                         {
@@ -68,8 +46,14 @@
             </div>
         </div>      
 
-        <div class="row">
+      
 
+            <label for="servcie" class="text-info">Select Services</label> 
+            <hr />
+       
+
+        <div class="row">
+          
             @if (Model.Services != null)
             {
                 foreach (thac_service service in Model.Services)
@@ -83,11 +67,12 @@
 
             <input type="text" id="txtServiceId" style="display:none" />
         </div>
-        <br />
+        <hr />
+       
         <div class="row">
             <div class="col-xs-12">
-                <div style="display:block" id="divIsEnabled" class="form-group">                    
-                    <input type="checkbox" id="chkIsEnabled"  /><b> IsActive</b> 
+                <div style="display:block;" id="divIsEnabled" class="form-group">                    
+                    <input style="height:15px;width:15px" type="checkbox" id="chkIsEnabled"  /><b class="text-info"> Activate Content?</b> 
                 </div>
             </div>
         </div>
@@ -95,7 +80,7 @@
         <div class="row">
             <div class="col-xs-10">
                 <div class="form-group">
-                    <label for="sel1">Content</label>
+                    <label class="text-info" for="sel1">Content</label>
                     <textarea id="editorContent" class="form-control" name="editorContent"></textarea>
                 </div>
             </div>
@@ -114,6 +99,7 @@
 
 </div>
 
+@Scripts.Render("~/bundles/jquery")
 @section  Scripts
 {
    
