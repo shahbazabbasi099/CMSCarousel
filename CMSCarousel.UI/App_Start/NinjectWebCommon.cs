@@ -73,6 +73,7 @@ namespace CMSCarousel.UI.App_Start
             kernel.Bind<ICountry>().To<CountryRepository>().InRequestScope().WithConstructorArgument("conString", conString);
             kernel.Bind<IService>().To<ServiceRepository>().InRequestScope().WithConstructorArgument("conString", conString);
             kernel.Bind<ILanguage>().To<LanguageRepository>().InRequestScope().WithConstructorArgument("conString", conString);
+            kernel.Bind<IServiceOption>().To<ServcieOptionRepository>().InRequestScope().WithConstructorArgument("conString", conString);
         }
     }
 }
