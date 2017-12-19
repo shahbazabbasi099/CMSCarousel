@@ -43,8 +43,10 @@
                     <th>Service</th>
                     <th>Message</th>
                     <th>Status</th>
-                    <th>User</th>
-                    <th>Date</th>
+                    <th>Created User</th>
+                    <th>Creation Date</th>
+                    <th>Updated User</th>
+                    <th>Updation Date</th>
                 </tr>
             </thead>
             <tbody>
@@ -68,8 +70,10 @@
                             {
                                 <td style="border:1px solid gray">Disabled</td>
                             }
-                            <td style="border:1px solid gray">@data.UserName</td>
+                            <td style="border:1px solid gray">@data.CreatedUserName</td>
                             <td style="border:1px solid gray">@data.CreatedDate</td>
+                            <td style="border:1px solid gray">@data.UpdatedUserName</td>
+                            <td style="border:1px solid gray">@data.UpdatedDate</td>
                         </tr>
                     }
                 }

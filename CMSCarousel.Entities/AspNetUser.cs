@@ -20,6 +20,7 @@ namespace CMSCarousel.Entities
             this.AspNetUserClaims = new HashSet<AspNetUserClaim>();
             this.AspnetUserLogins = new HashSet<AspnetUserLogin>();
             this.thac_serviceoption = new HashSet<thac_serviceoption>();
+            this.thac_serviceoption1 = new HashSet<thac_serviceoption>();
             this.AspNetRoles = new HashSet<AspNetRole>();
         }
     
@@ -44,6 +45,8 @@ namespace CMSCarousel.Entities
         public virtual ICollection<AspnetUserLogin> AspnetUserLogins { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<thac_serviceoption> thac_serviceoption { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<thac_serviceoption> thac_serviceoption1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
     }

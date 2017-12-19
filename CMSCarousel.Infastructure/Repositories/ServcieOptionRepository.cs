@@ -33,7 +33,7 @@ namespace CMSCarousel.Infastructure.Repositories
                 var parameters = new DynamicParameters();
                 parameters.Add("CountryId", addcontent.CountryId, DbType.String, ParameterDirection.Input);
                 parameters.Add("LanguageId", addcontent.LanguageId, DbType.Int32, ParameterDirection.Input);
-                parameters.Add("CreatedUserId", addcontent.CreatedUserId, DbType.String, ParameterDirection.Input);
+                parameters.Add("UserId", addcontent.CreatedUserId, DbType.String, ParameterDirection.Input);
                 parameters.Add("ServiceId", addcontent.ServiceId, DbType.Int32, ParameterDirection.Input);
                 parameters.Add("IsActive", addcontent.IsActive, DbType.Boolean, ParameterDirection.Input);
                 parameters.Add("ContentMessage", addcontent.ContentMessage, DbType.String, ParameterDirection.Input);
