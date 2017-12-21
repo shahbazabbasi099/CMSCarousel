@@ -77,7 +77,7 @@ namespace CMSCarousel.UI.Controllers
             return Json(getContentModel);
         }
         
-        public JsonResult SaveContent(string serviceId, string languageId, string countryId, bool isActive, string content)
+        public JsonResult SaveContent(string serviceId, string languageId, string countryId, bool isActive, string title, string content)
         {
             
             try
@@ -91,6 +91,7 @@ namespace CMSCarousel.UI.Controllers
                 addContent.LanguageId = int.Parse(languageId);
                 addContent.CountryId = int.Parse(countryId);
                 addContent.IsActive = isActive;
+                addContent.ContentTitle = title;
                 addContent.ContentMessage = content;
                 //addContent.CreatedDate = DateTime.Now;
                

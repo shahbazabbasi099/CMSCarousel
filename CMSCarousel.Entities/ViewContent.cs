@@ -12,6 +12,7 @@ namespace CMSCarousel.Entities
         public string Language { get; set; }
         public string ServiceName { get; set; }
         public string ContentMessage { get; set; }
+        public string ContentTitle { get; set; }
         public string CreatedUserName { get; set; }
         public string CreatedDate { get; set; }
         public int IsActive { get; set; }

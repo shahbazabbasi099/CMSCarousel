@@ -36,6 +36,7 @@ namespace CMSCarousel.Infastructure.Repositories
                 parameters.Add("UserId", addcontent.CreatedUserId, DbType.String, ParameterDirection.Input);
                 parameters.Add("ServiceId", addcontent.ServiceId, DbType.Int32, ParameterDirection.Input);
                 parameters.Add("IsActive", addcontent.IsActive, DbType.Boolean, ParameterDirection.Input);
+                parameters.Add("ContentTitle", addcontent.ContentTitle, DbType.String, ParameterDirection.Input);
                 parameters.Add("ContentMessage", addcontent.ContentMessage, DbType.String, ParameterDirection.Input);
 
 

@@ -23,6 +23,7 @@ namespace CMSCarousel.Entities
         public bool IsActive { get; set; }
         public string UpdatedUserId { get; set; }
         public System.DateTime UpdatedDate { get; set; }
+        public string ContentTitle { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual AspNetUser AspNetUser1 { get; set; }

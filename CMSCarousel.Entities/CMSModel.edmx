@@ -109,6 +109,7 @@
           <Property Name="CreatedUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="ServiceId" Type="int" Nullable="false" />
           <Property Name="LanguageOptionId" Type="int" Nullable="false" />
+          <Property Name="ContentTitle" Type="nvarchar(max)" />
           <Property Name="ContentMessage" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
@@ -469,6 +470,7 @@
           <NavigationProperty Name="AspNetUser1" Relationship="cms_carouselModel.FK_thac_serviceoption_AspNetUsers" FromRole="thac_serviceoption" ToRole="AspNetUser" />
           <NavigationProperty Name="thac_languageoption" Relationship="cms_carouselModel.FK_thacserviceoption_thaclanguageoption" FromRole="thac_serviceoption" ToRole="thac_languageoption" />
           <NavigationProperty Name="thac_service" Relationship="cms_carouselModel.FK_thac_serviceoption_thac_service" FromRole="thac_serviceoption" ToRole="thac_service" />
+          <Property Name="ContentTitle" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Type="cms_carouselModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
@@ -680,6 +682,7 @@
           <EntitySetMapping Name="thac_serviceoption">
             <EntityTypeMapping TypeName="cms_carouselModel.thac_serviceoption">
               <MappingFragment StoreEntitySet="thac_serviceoption">
+                <ScalarProperty Name="ContentTitle" ColumnName="ContentTitle" />
                 <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
                 <ScalarProperty Name="UpdatedUserId" ColumnName="UpdatedUserId" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />

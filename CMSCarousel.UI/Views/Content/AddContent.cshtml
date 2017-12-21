@@ -76,6 +76,20 @@
                 </div>
             </div>
         </div>
+
+
+        <br />
+        <div class="row">
+            <div class="col-xs-10">
+                <div class="form-group">
+                    <label class="text-info" for="sel0">Title</label>
+                    <input type="text" id="txtTitle" class="form-control input-lg" />
+                </div>
+            </div>
+        </div>  
+
+
+
         <br />
         <div class="row">
             <div class="col-xs-10">
@@ -84,7 +98,11 @@
                     <textarea id="editorContent" class="form-control" name="editorContent"></textarea>
                 </div>
             </div>
-        </div>       
+        </div>  
+        
+        
+
+
         <div class="row">
             <div class="col-xs-12">
                 <div class="form-group">
@@ -136,7 +154,7 @@
                         type: "POST",
                         traditional: true,
                         url: "/Content/SaveContent",
-                        data: "{serviceId: '" + $("#txtServiceId").val() + "', languageId: '" + $("#drpLanguage").val() + "', countryId: '" + $("#drpCountry").val() + "', isActive: '" + $("#chkIsEnabled").prop("checked") + "', content: '" + CKEDITOR.instances['editorContent'].getData() + "'}",
+                        data: "{serviceId: '" + $("#txtServiceId").val() + "', languageId: '" + $("#drpLanguage").val() + "', countryId: '" + $("#drpCountry").val() + "', isActive: '" + $("#chkIsEnabled").prop("checked") + "',  title: '" + $("#txtTitle").val() + "', content: '" + CKEDITOR.instances['editorContent'].getData() + "'}", 
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (data) {
@@ -192,6 +210,8 @@
                         else {
                             $("#chkIsEnabled").prop("checked", false);
                         }
+
+                        $("#txtTitle").val(data.ServiceOption.ContentTitle);
                         
                         CKEDITOR.instances['editorContent'].setData(data.ServiceOption.ContentMessage);
                     }
@@ -201,7 +221,8 @@
                         if (data.ErrorMessage != "Data Not Found") {
                             
                             alert(data.ErrorMessage);
-                        }                        
+                        } 
+                        $("#txtTitle").val("");
                         CKEDITOR.instances['editorContent'].setData("");
                         $("#chkIsEnabled").attr("checked", false);
                     }
@@ -209,7 +230,10 @@
                 },
                 error: function (request, status, errorThrown) {
 
-                    alert("Error: " + errorThrown);                   
+                    alert("Error: " + errorThrown);
+                    $("#txtTitle").val("");
+                    CKEDITOR.instances['editorContent'].setData("");
+                    $("#chkIsEnabled").attr("checked", false);
 
                 }
             });
