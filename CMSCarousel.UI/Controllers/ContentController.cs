@@ -4,6 +4,7 @@ using CMSCarousel.UI.Models;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -11,7 +12,7 @@ using System.Web.Mvc;
 namespace CMSCarousel.UI.Controllers
 {
 
-   [Authorize]
+    [Authorize]
     public class ContentController : Controller
     {
 
@@ -34,21 +35,21 @@ namespace CMSCarousel.UI.Controllers
         {
             AddContentViewModel contentModel = new AddContentViewModel();
             try
-            {               
+            {
                 List<thac_country> countries = iCountry.GetCountries();
                 List<thac_language> languages = iLanguage.GetLanguages();
-                List<thac_service> services = iService.GetServices();                
+                List<thac_service> services = iService.GetServices();
                 contentModel.Countries = countries;
                 contentModel.Languages = languages;
                 contentModel.Services = services;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
             return View(contentModel);
         }
-        
+
         public JsonResult GetContent(string serviceId, string languageId, string countryId)
         {
             GetContentViewModel getContentModel = new GetContentViewModel();
@@ -68,7 +69,7 @@ namespace CMSCarousel.UI.Controllers
                     getContentModel.ErrorMessage = "";
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 getContentModel.ServiceOption = null;
                 getContentModel.ErrorStatus = 1;
@@ -76,10 +77,10 @@ namespace CMSCarousel.UI.Controllers
             }
             return Json(getContentModel);
         }
-        
+
         public JsonResult SaveContent(string serviceId, string languageId, string countryId, bool isActive, string title, string content)
         {
-            
+
             try
             {
                 AddContent addContent = new AddContent();
@@ -94,9 +95,9 @@ namespace CMSCarousel.UI.Controllers
                 addContent.ContentTitle = title;
                 addContent.ContentMessage = content;
                 //addContent.CreatedDate = DateTime.Now;
-               
+
                 int result = iServiceOption.InsertServiceOption(addContent);
-                var response = new {Result = result, ErrorMessage = "" };
+                var response = new { Result = result, ErrorMessage = "" };
                 return Json(response);
             }
             catch (Exception ex)
@@ -104,7 +105,7 @@ namespace CMSCarousel.UI.Controllers
                 var response = new { Result = -1, ErrorMessage = ex.Message };
                 return Json(response);
             }
-           
+
         }
 
 
@@ -115,20 +116,117 @@ namespace CMSCarousel.UI.Controllers
 
         #region ViewContent Page
 
+        public static List<ViewContent> MainContentList { get; set; }
+
+
+        List<ViewContent> FilterContentList = new List<ViewContent>();
+
+
+        ViewContentModel response = new ViewContentModel();
+
+
         public ActionResult ViewContent()
         {
-            List<ViewContent> content = null;
+
             try
             {
-                content = iServiceOption.GetAllContent();
+                var list = iServiceOption.GetAllContent();
+
+                MainContentList = new List<ViewContent>(list);                
+                response.Content = list;
+                response.SelectedCountry = "-1";
+                response.SelectedLanguage = "-1";
+                response.SelectedService = "-1";
+                response.SelectedStatus = "-1";
+                response.SelectedFromDate = "";
+                response.SelectedToDate = "";
+                ViewDropContentList();
+                return View(response);
             }
             catch (Exception ex)
             {
-
+                Debug.WriteLine(ex.Message.ToString());
             }
-            return View(content);
+            return View(response);
         }
 
+
+
         #endregion ViewContent Page
+
+
+        #region Search Content 
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SearchContent(string country, string language, string service, string status, string toDate, string fromDate)
+        {
+
+            FilterContentList = MainContentList;
+
+            if (country != "-1")
+            {
+
+                FilterContentList = FilterContentList.Where(x => x.Country == country).ToList();
+
+            }
+            if (language != "-1")
+            {
+
+                FilterContentList = FilterContentList.Where(x => x.Language == language).ToList();
+
+            }
+            if (service != "-1")
+            {
+
+                FilterContentList = FilterContentList.Where(x => x.ServiceName == service).ToList();
+
+            }
+            if (status != "-1")
+            {
+
+                FilterContentList = FilterContentList.Where(x => x.IsActive == int.Parse(status)).ToList();
+
+            }
+            if (!string.IsNullOrWhiteSpace(fromDate))
+            {
+                DateTime date = Convert.ToDateTime(fromDate);                
+                FilterContentList = FilterContentList.Where(x => Convert.ToDateTime(x.UpdatedDate.ToShortDateString()) >= date).ToList();
+
+            }
+            
+            if (!string.IsNullOrWhiteSpace(toDate))
+            {
+                DateTime date = Convert.ToDateTime(toDate);
+                FilterContentList = FilterContentList.Where(x => Convert.ToDateTime(x.UpdatedDate.ToShortDateString()) <= date).ToList();
+            }
+            
+            response.Content = FilterContentList;
+            response.SelectedCountry = country;
+            response.SelectedLanguage = language;
+            response.SelectedService = service;
+            response.SelectedStatus = status;
+            response.SelectedFromDate = fromDate;
+            response.SelectedToDate = toDate;
+            // populate all droplist 
+            ViewDropContentList();
+
+
+            // return View Content Page and its model
+            return View("ViewContent", response);
+        }
+        #endregion Search Content 
+
+
+        private void ViewDropContentList()
+        {
+            List<thac_country> countries = iCountry.GetCountries();
+            List<thac_language> languages = iLanguage.GetLanguages();
+            List<thac_service> services = iService.GetServices();
+
+            response.Countries = countries;
+            response.Languages = languages;
+            response.Services = services;
+        }
     }
 }

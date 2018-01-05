@@ -11,7 +11,7 @@ namespace CMSCarousel.UI
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                "~/Scripts/jquery-{version}.js"));
+                "~/Scripts/jquery-{version}.js"));            
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                 "~/Scripts/jquery.unobtrusive*",
@@ -34,7 +34,7 @@ namespace CMSCarousel.UI
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                 "~/Scripts/modernizr-*"));
             bundles.Add(new ScriptBundle("~/bundles/DataTable").Include(
-               "~/Content/Javascript/DataTables/jquery.js",
+               //"~/Content/Javascript/DataTables/jquery.js",
                 "~/Content/Javascript/DataTables/jquery.dataTables.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
@@ -46,6 +46,17 @@ namespace CMSCarousel.UI
                  "~/Content/Site.css",
                  "~/Content/Css/MasterSheet.css",
                  "~/Content/Javascript/DataTables/css/demo_table.css"));
+
+            //js  
+            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
+                "~/Scripts/jquery-1.12.4.js",
+                "~/Scripts/jquery-ui-1.12.1.min.js"));
+
+
+            //css  
+            bundles.Add(new StyleBundle("~/Content/cssjqryUi").Include(
+                   "~/Content/themes/base/jquery-ui.min.css",
+                   "~/Content/themes/base/datepicker.css"));
         }
     }
 }

@@ -1,31 +1,11 @@
 ﻿@using CMSCarousel.Entities;
-@model IEnumerable<ViewContent>
+@model ViewContentModel
 @{
     ViewBag.Title = "ViewContent";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@Scripts.Render("~/bundles/DataTable")
-<script type="text/javascript">
 
-         var oTable;
-
-         $(document).ready(function () {
-
-
-             oTable = $('#tblViewContent').dataTable({
-
-                 "sPaginationType": "full_numbers",
-                 "aaSorting": [[0, "desc"]],
-                 "fnDrawCallback": function () {
-
-                 },
-
-             });
-
-         });
-
-</script>
 
 <div class="Main_Container">
 
@@ -34,6 +14,95 @@
 
 
     <div style="padding:20px;">
+
+        <hr />
+        @*Search Form Start Here*@
+
+        @using (Html.BeginForm("SearchContent", "Content"))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            <div class="row">
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="text-info" for="sel1">Country</label>
+                        <select class="form-control" name="country" id="drpCountry">
+                            <option value="-1">All</option>
+                            @if (Model.Countries != null)
+                            {
+                                foreach (thac_country country in Model.Countries)
+                                {
+                                    <option value="@country.Name">@country.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="text-info" for="sel1">Language</label>
+                        <select class="form-control" name="language" id="drpLanguage">
+                            <option value="-1">All</option>
+                            @if (Model.Languages != null)
+                            {
+                                foreach (thac_language language in Model.Languages)
+                                {
+                                    <option value="@language.Name">@language.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="text-info" for="sel1">Service</label>
+                        <select class="form-control" name="service" id="drpService">
+                            <option value="-1">All</option>
+                            @if (Model.Services != null)
+                            {
+                                foreach (thac_service service in Model.Services)
+                                {
+                                    <option value="@service.Name">@service.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="text-info" for="sel1">Status</label>
+                        <select class="form-control" name="status" id="drpStatus">
+                            <option value="-1">All</option>
+                            <option value="1">Active</option>
+                            <option value="0">In-Active</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="text-info" for="sel1">Date From</label>
+                        <input id="fromDate" class="form-control" name="fromDate" type="text"  />
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label class="text-info" for="sel1">Date To</label>
+                        <input id="toDate"  class="form-control" name="toDate" type="text"  />
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group" style="padding-top: 25px;">
+                        <input id="btnSearch" type="submit" class="btn btn-success" value="Search" />
+                    </div>
+                </div>
+            </div>
+        }
+        @*Search Form END Here*@
+
+        <br />
 
         <table id="tblViewContent" cellpadding="0" cellspacing="0" border="0" class="display" width="95%">
             <thead style="background-color: #DEDEDE; color: gray; font-family: Arial; font-size: 10pt">
@@ -45,7 +114,7 @@
                     <th>Message</th>
                     <th>Status</th>
                     <th>Created User</th>
-                    <th>Creation Date</th>
+                    @*<th>Creation Date</th>*@
                     <th>Updated User</th>
                     <th>Updation Date</th>
                 </tr>
@@ -53,9 +122,9 @@
             <tbody>
 
 
-                @if (Model != null)
+                @if (Model.Content != null)
                 {
-                    foreach (ViewContent data in Model)
+                    foreach (ViewContent data in Model.Content)
                     {
 
                         <tr>
@@ -66,16 +135,19 @@
                             <td style="border:1px solid gray">@Html.Raw(data.ContentMessage)</td>
                             @if (data.IsActive == 1)
                             {
-                                <td style="border:1px solid gray">Active</td>
+                                <td style="border:1px solid gray;color:green;font-weight:bold">Active</td>
                             }
                             else
                             {
-                                <td style="border:1px solid gray">Disabled</td>
+                                <td style="border:1px solid gray;color:red;font-weight:bold">In-Active</td>
                             }
                             <td style="border:1px solid gray">@data.CreatedUserName</td>
-                            <td style="border:1px solid gray">@data.CreatedDate</td>
+                            @*<td style="border:1px solid gray">@data.CreatedDate.ToShortDateString()</td>*@
                             <td style="border:1px solid gray">@data.UpdatedUserName</td>
-                            <td style="border:1px solid gray">@data.UpdatedDate</td>
+
+                            @*<td style="border:1px solid gray">@Html.DisplayFor(data.UpdatedDate)</td>*@
+
+                            <td style="border:1px solid gray">@data.UpdatedDate.ToShortDateString()</td>
                         </tr>
                     }
                 }
@@ -96,3 +168,60 @@
 
 </div>
 
+
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryui")
+
+    @Scripts.Render("~/bundles/DataTable")
+
+    @Styles.Render("~/Content/cssjqryUi")
+
+    <script>
+
+        var oTable;
+
+        var SelectedCountry = '@Model.SelectedCountry';
+        var SelectedLanguage = '@Model.SelectedLanguage';
+        var SelectedService =   '@Model.SelectedService';
+        var SelectedStatus = '@Model.SelectedStatus';
+        var SelectedFromDate =  '@Model.SelectedFromDate';
+        var SelectedToDate = '@Model.SelectedToDate';
+
+        $(document).ready(function () {
+
+            oTable = $('#tblViewContent').dataTable({
+
+                "sPaginationType": "full_numbers",
+                "aaSorting": [[0, "desc"]],
+                "fnDrawCallback": function () {
+
+                },
+
+            });
+
+
+            $('#fromDate').datepicker({
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-60:+0"
+            });
+            $('#toDate').datepicker({
+                dateFormat: "dd/mm/yy",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-60:+0"
+            });
+
+            $("#drpCountry").val(SelectedCountry);
+            $("#drpLanguage").val(SelectedLanguage);
+            $("#drpService").val(SelectedService);
+            $("#drpStatus").val(SelectedStatus);
+            $("#fromDate").val(SelectedFromDate);
+            $("#toDate").val(SelectedToDate);
+        });
+    </script>
+
+}
