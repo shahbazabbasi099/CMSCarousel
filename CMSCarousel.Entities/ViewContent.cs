@@ -10,8 +10,11 @@ namespace CMSCarousel.Entities
     public class ViewContent
     {
         public string Country { get; set; }
+        public int CountryId { get; set; }
         public string Language { get; set; }
+        public int LanguageId { get; set; }
         public string ServiceName { get; set; }
+        public int ServiceId { get; set; }
         public string ContentMessage { get; set; }
         public string ContentTitle { get; set; }
         public string CreatedUserName { get; set; }

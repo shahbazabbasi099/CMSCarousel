@@ -27,6 +27,12 @@ namespace CMSCarousel.Entities
         public List<thac_country> Countries { get; set; }
         public List<thac_service> Services { get; set; }
         public List<thac_language> Languages { get; set; }
+        public int ServiceId { get; set; }
+        public int CountryId { get; set; }
+        public int LanguageId { get; set; }
+        public string ContentMessage { get; set; }
+        public string ContentTitle { get; set; }
+        public bool IsActive { get; set; }
     }
     public class GetContentViewModel
     {

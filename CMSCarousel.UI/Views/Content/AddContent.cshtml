@@ -24,7 +24,14 @@
                         {
                             foreach (thac_country country in Model.Countries)
                             {
-                                <option value="@country.Id">@country.Name</option>
+                                if (country.Id == Model.CountryId)
+                                {
+                                    <option value="@country.Id" selected>@country.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@country.Id">@country.Name</option>
+                                }
                             }
                         }
                     </select>
@@ -38,7 +45,15 @@
                         {
                             foreach (thac_language language in Model.Languages)
                             {
-                                <option value="@language.Id">@language.Name</option>
+                                if (language.Id == Model.LanguageId)
+                                {
+                                    <option value="@language.Id" selected>@language.Name </option>
+                                }
+                                else
+                                {
+                                    <option value = "@language.Id"> @language.Name </option>
+
+                                }
                             }
                         }
                     </select>
@@ -60,7 +75,14 @@
                 {
                     <div onclick="GetContent('@service.Id')" class="col-xs-2" style="width:90px !important;cursor:pointer">
                         <img style="height: 65px;width: 80px;" src="~/Content/Images/ServicesIcon/@service.ImageUrl" />
-                        <div id="divServiceName_@service.Id" style="width:80px;text-align:center">@service.Name</div>
+                        @if (service.Id == Model.ServiceId)
+                        {
+                            <div id="divServiceName_@service.Id" style="width:80px;text-align:center;font-weight:bold;color:red">@service.Name</div>
+                        }
+                        else
+                        {
+                            <div id="divServiceName_@service.Id" style="width:80px;text-align:center">@service.Name</div>
+                        }
                     </div>
                 }
             }
@@ -71,8 +93,16 @@
        
         <div class="row">
             <div class="col-xs-12">
-                <div style="display:block;" id="divIsEnabled" class="form-group">                    
-                    <input style="height:15px;width:15px" type="checkbox" id="chkIsEnabled"  /><b class="text-info"> Activate Content?</b> 
+                <div style="display:block;" id="divIsEnabled" class="form-group">    
+                    @if (Model.IsActive == true)
+                    {
+                        <input style="height:15px;width:15px" type="checkbox" id="chkIsEnabled" checked="checked" />
+                    }
+                    else
+                    {
+                        <input style="height:15px;width:15px" type="checkbox" id="chkIsEnabled"  />
+                    }
+                    <b class="text-info"> Activate Content?</b> 
                 </div>
             </div>
         </div>
@@ -83,7 +113,7 @@
             <div class="col-xs-10">
                 <div class="form-group">
                     <label class="text-info" for="sel0">Title</label>
-                    <input type="text" id="txtTitle" class="form-control input-lg" />
+                    <input type="text" id="txtTitle" class="form-control input-lg" value="@Model.ContentTitle" />
                 </div>
             </div>
         </div>  
@@ -95,7 +125,7 @@
             <div class="col-xs-10">
                 <div class="form-group">
                     <label class="text-info" for="sel1">Content</label>
-                    <textarea id="editorContent" class="form-control" name="editorContent"></textarea>
+                    <textarea id="editorContent" class="form-control" name="editorContent">@Model.ContentMessage</textarea>
                 </div>
             </div>
         </div>  
@@ -122,22 +152,39 @@
 {
    
 @*<script src="~/Scripts/ckeditor_4.8.0/ckeditor_4.8.0.js"></script>*@
-<script src="https://cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script>
+@*<script src="https://cdn.ckeditor.com/4.8.0/standard/ckeditor.js"></script>
     <script>
         CKEDITOR.replace('editorContent');
-    </script>
+    </script>*@
+<script src="~/Content/Javascript/ckeditor/ckeditor.js"></script>
+
+<script type="text/javascript">
+
+    
+</script>
 
     <script type="text/javascript">
 
-        $(document).ready({
 
 
-        });
+        $(document).ready(function () {
+    CKEDITOR.replace('editorContent');
+    //var options = {
+    //    width: 800,
+    //    height: 500,
+    //    controls: "bold italic underline strikethrough subscript superscript | font size style | color highlight removeformat | bullets numbering | outdent indent | alignleft center alignright justify | undo redo | rule link image unlink | cut copy paste pastetext | print source"
+    //};
+    //var editor = $("#editor").cleditor(options)[0];
+
+        if ('@Model.ServiceId' != -1) {
+            $("#txtServiceId").val('@Model.ServiceId');
+        }
+});
 
 
         function SaveContent()
         {
-           
+
             if ($("#txtServiceId").val() == "")
             {
                 alert("Please select service.");
@@ -150,37 +197,44 @@
                 }
                 else
                 {
-                    $.ajax({
-                        type: "POST",
-                        traditional: true,
-                        url: "/Content/SaveContent",
-                        data: "{serviceId: '" + $("#txtServiceId").val() + "', languageId: '" + $("#drpLanguage").val() + "', countryId: '" + $("#drpCountry").val() + "', isActive: '" + $("#chkIsEnabled").prop("checked") + "',  title: '" + $("#txtTitle").val() + "', content: '" + CKEDITOR.instances['editorContent'].getData() + "'}", 
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (data) {
 
-                            // Success
-                            if (data.Result > 0) {
+                    if ($("#txtTitle").val() == "") {
+                        alert("Please enter title.");
+                    }
+                    else {
 
-                                alert("Content saved successfully.");
-                            }
-                            //Error
-                            else {
+                        $.ajax({
+                            type: "POST",
+                            traditional: true,
+                            url: "/Content/SaveContent",
+                            data: "{serviceId: '" + $("#txtServiceId").val() + "', languageId: '" + $("#drpLanguage").val() + "', countryId: '" + $("#drpCountry").val() + "', isActive: '" + $("#chkIsEnabled").prop("checked") + "',  title: '" + $("#txtTitle").val() + "', content: '" + CKEDITOR.instances['editorContent'].getData() + "'}",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (data) {
 
-                                if (data.Result == -1) {
+                                // Success
+                                if (data.Result > 0) {
 
-                                    alert(data.ErrorMessage);
+                                    alert("Content saved successfully.");
                                 }
-                                
+                                //Error
+                                else {
+
+                                    if (data.Result == -1) {
+
+                                        alert(data.ErrorMessage);
+                                    }
+
+                                }
+
+                            },
+                            error: function (request, status, errorThrown) {
+
+                                alert("Error: " + errorThrown);
+
                             }
-
-                        },
-                        error: function (request, status, errorThrown) {
-
-                            alert("Error: " + errorThrown);                           
-
-                        }
-                    });
+                        });
+                    }
                 }
             }
         }
@@ -203,7 +257,7 @@
                     // Success
                     if (data.ErrorStatus == 0) {
 
-                                            
+
                         if (data.ServiceOption.IsActive == true) {
                             $("#chkIsEnabled").prop("checked", true);
                         }
@@ -212,16 +266,16 @@
                         }
 
                         $("#txtTitle").val(data.ServiceOption.ContentTitle);
-                        
+
                         CKEDITOR.instances['editorContent'].setData(data.ServiceOption.ContentMessage);
                     }
                     //Error
                     else {
 
                         if (data.ErrorMessage != "Data Not Found") {
-                            
+
                             alert(data.ErrorMessage);
-                        } 
+                        }
                         $("#txtTitle").val("");
                         CKEDITOR.instances['editorContent'].setData("");
                         $("#chkIsEnabled").attr("checked", false);

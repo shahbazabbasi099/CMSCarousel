@@ -117,6 +117,7 @@
                     @*<th>Creation Date</th>*@
                     <th>Updated By (User)</th>
                     <th>Updation Date</th>
+                    <th>Edit</th>
                 </tr>
             </thead>
             <tbody>
@@ -148,6 +149,7 @@
                             @*<td style="border:1px solid gray">@Html.DisplayFor(data.UpdatedDate)</td>*@
 
                             <td style="border:1px solid gray">@data.UpdatedDate.ToShortDateString()</td>
+                            <td style="border:1px solid gray"><a href="~/Content/AddContent?serviceId=@data.ServiceId&countryId=@data.CountryId&languageId=@data.LanguageId">Edit</a></td>
                         </tr>
                     }
                 }

@@ -31,7 +31,7 @@ namespace CMSCarousel.UI.Controllers
 
         #region AddContent Page
 
-        public ActionResult AddContent()
+        public ActionResult AddContent(string serviceId, string languageId, string countryId)
         {
             AddContentViewModel contentModel = new AddContentViewModel();
             try
@@ -39,6 +39,25 @@ namespace CMSCarousel.UI.Controllers
                 List<thac_country> countries = iCountry.GetCountries();
                 List<thac_language> languages = iLanguage.GetLanguages();
                 List<thac_service> services = iService.GetServices();
+                contentModel.ServiceId = -1;
+                contentModel.CountryId = -1;
+                contentModel.LanguageId = -1;
+                contentModel.IsActive = false;
+                contentModel.ContentTitle = "";
+                contentModel.ContentMessage = "";
+                if (!string.IsNullOrEmpty(serviceId) && !string.IsNullOrEmpty(languageId) && !string.IsNullOrEmpty(countryId))
+                {
+                    thac_serviceoption serviceOption = iServiceOption.GetServiceOptionByID(int.Parse(countryId), int.Parse(languageId), int.Parse(serviceId));
+                    if (serviceOption != null)
+                    {
+                        contentModel.ServiceId = int.Parse(serviceId);
+                        contentModel.CountryId = int.Parse(countryId);
+                        contentModel.LanguageId = int.Parse(languageId);
+                        contentModel.IsActive = serviceOption.IsActive;
+                        contentModel.ContentTitle = serviceOption.ContentTitle;
+                        contentModel.ContentMessage = serviceOption.ContentMessage;
+                    }
+                }
                 contentModel.Countries = countries;
                 contentModel.Languages = languages;
                 contentModel.Services = services;
