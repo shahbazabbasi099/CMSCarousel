@@ -286,6 +286,7 @@
     <Content Include="Content\Images\ServicesIcon\Bundles.png" />
     <Content Include="Content\Images\ServicesIcon\Call.png" />
     <Content Include="Content\Images\ServicesIcon\Help.png" />
+    <Content Include="Content\Images\ServicesIcon\Invite.png" />
     <Content Include="Content\Images\ServicesIcon\Messages.png" />
     <Content Include="Content\Images\ServicesIcon\PlusOne.png" />
     <Content Include="Content\Images\ServicesIcon\Rates.png" />

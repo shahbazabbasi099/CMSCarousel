@@ -100,6 +100,7 @@
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="ImageUrl" Type="nvarchar" MaxLength="200" />
+          <Property Name="ServiceCode" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="thac_serviceoption">
           <Key>
@@ -109,7 +110,7 @@
           <Property Name="CreatedUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="ServiceId" Type="int" Nullable="false" />
           <Property Name="LanguageOptionId" Type="int" Nullable="false" />
-          <Property Name="ContentTitle" Type="nvarchar(max)" />
+          <Property Name="ContentTitle" Type="nvarchar(max)" Nullable="false" />
           <Property Name="ContentMessage" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
@@ -452,6 +453,7 @@
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ImageUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="thac_serviceoption" Relationship="cms_carouselModel.FK_thac_serviceoption_thac_service" FromRole="thac_service" ToRole="thac_serviceoption" />
+          <Property Name="ServiceCode" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="thac_serviceoption">
           <Key>
@@ -470,7 +472,7 @@
           <NavigationProperty Name="AspNetUser1" Relationship="cms_carouselModel.FK_thac_serviceoption_AspNetUsers" FromRole="thac_serviceoption" ToRole="AspNetUser" />
           <NavigationProperty Name="thac_languageoption" Relationship="cms_carouselModel.FK_thacserviceoption_thaclanguageoption" FromRole="thac_serviceoption" ToRole="thac_languageoption" />
           <NavigationProperty Name="thac_service" Relationship="cms_carouselModel.FK_thac_serviceoption_thac_service" FromRole="thac_serviceoption" ToRole="thac_service" />
-          <Property Name="ContentTitle" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ContentTitle" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Type="cms_carouselModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
@@ -672,6 +674,7 @@
           <EntitySetMapping Name="thac_service">
             <EntityTypeMapping TypeName="cms_carouselModel.thac_service">
               <MappingFragment StoreEntitySet="thac_service">
+                <ScalarProperty Name="ServiceCode" ColumnName="ServiceCode" />
                 <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="Name" ColumnName="Name" />

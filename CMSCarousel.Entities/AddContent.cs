@@ -33,6 +33,10 @@ namespace CMSCarousel.Entities
         public string ContentMessage { get; set; }
         public string ContentTitle { get; set; }
         public bool IsActive { get; set; }
+        public string MaxLengthTitle { get; set; }
+        public string MaxLengthContent { get; set; }
+        public string PlusOneCountries { get; set; }
+        
     }
     public class GetContentViewModel
     {

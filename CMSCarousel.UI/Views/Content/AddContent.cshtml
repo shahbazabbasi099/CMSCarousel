@@ -6,6 +6,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@Scripts.Render("~/bundles/jqueryui")
+@Scripts.Render("~/bundles/bootstrap")
 
 <div class="Main_Container">
 
@@ -19,7 +21,7 @@
             <div class="col-xs-3">
                 <div class="form-group">
                     <label class="text-info" for="sel1">Country</label>
-                    <select class="form-control" id="drpCountry">
+                    <select class="form-control" id="drpCountry" onchange="CountryChange()" style="height: 28px;">
                         @if (Model.Countries != null)
                         {
                             foreach (thac_country country in Model.Countries)
@@ -40,7 +42,7 @@
             <div class="col-xs-3">
                 <div class="form-group">
                     <label class="text-info" for="sel1">Language</label>
-                    <select class="form-control" id="drpLanguage">
+                    <select class="form-control" id="drpLanguage" style="height: 28px;">
                         @if (Model.Languages != null)
                         {
                             foreach (thac_language language in Model.Languages)
@@ -59,9 +61,9 @@
                     </select>
                 </div>
             </div>
+            
         </div>      
-
-      
+            
 
             <label for="servcie" class="text-info">Select Services</label> 
             <hr />
@@ -73,15 +75,15 @@
             {
                 foreach (thac_service service in Model.Services)
                 {
-                    <div onclick="GetContent('@service.Id')" class="col-xs-2" style="width:90px !important;cursor:pointer">
-                        <img style="height: 65px;width: 80px;" src="~/Content/Images/ServicesIcon/@service.ImageUrl" />
+                    <div id="divService_@service.ServiceCode" onclick="GetContent('@service.Id')" class="col-xs-2" style="width:65px !important;cursor:pointer">
+                        <img style="height: 40px;width: 58px;" src="~/Content/Images/ServicesIcon/@service.ImageUrl" />
                         @if (service.Id == Model.ServiceId)
                         {
-                            <div id="divServiceName_@service.Id" style="width:80px;text-align:center;font-weight:bold;color:red">@service.Name</div>
+                            <div id="divServiceName_@service.Id" style="width:58px;text-align:center;font-weight:bold;color:red;font-size:11px">@service.Name</div>
                         }
                         else
                         {
-                            <div id="divServiceName_@service.Id" style="width:80px;text-align:center">@service.Name</div>
+                            <div id="divServiceName_@service.Id" style="width:58px;text-align:center;font-size:11px">@service.Name</div>
                         }
                     </div>
                 }
@@ -90,62 +92,80 @@
             <input type="text" id="txtServiceId" style="display:none" />
         </div>
         <hr />
-       
-        <div class="row">
-            <div class="col-xs-12">
-                <div style="display:block;" id="divIsEnabled" class="form-group">    
-                    @if (Model.IsActive == true)
-                    {
-                        <input style="height:15px;width:15px" type="checkbox" id="chkIsEnabled" checked="checked" />
-                    }
-                    else
-                    {
-                        <input style="height:15px;width:15px" type="checkbox" id="chkIsEnabled"  />
-                    }
-                    <b class="text-info"> Activate Content?</b> 
-                </div>
-            </div>
-        </div>
+                       
+       <div class="row">
 
+           <div class="col-xs-12">
+               <div class="form-group">
+                   <label class="text-info" for="sel0">Title</label>
+                   <input style="height: 28px;" type="text" id="txtTitle" class="form-control input-sm" value="@Model.ContentTitle" />
+               </div>
+           </div>
 
-        <br />
-        <div class="row">
-            <div class="col-xs-10">
-                <div class="form-group">
-                    <label class="text-info" for="sel0">Title</label>
-                    <input type="text" id="txtTitle" class="form-control input-lg" value="@Model.ContentTitle" />
-                </div>
-            </div>
-        </div>  
+       </div>
 
-
-
-        <br />
         <div class="row">
             <div class="col-xs-10">
                 <div class="form-group">
                     <label class="text-info" for="sel1">Content</label>
-                    <textarea id="editorContent" class="form-control" name="editorContent">@Model.ContentMessage</textarea>
+                    <textarea style="height:70px" id="editorContent" class="form-control" name="editorContent">@Model.ContentMessage</textarea>
                 </div>
             </div>
         </div>  
         
-        
-
 
         <div class="row">
             <div class="col-xs-12">
                 <div class="form-group">
-                    <input id="btnSave" onclick="SaveContent()" type="button" class="btn btn-success" value="Save Content" />
+                    <input id="btnSave" data-toggle="modal" data-target="#divSaveContentModel"  type="button" class="btn btn-success" value="Save Content" />
                 </div>
             </div>
         </div>
 
+        <input id="txtMaxLenthTitle" type="text" style="display:none" />
+        <input id="txtMaxLenthContent" type="text" style="display:none" />
+        <input id="txtPlusOneCountries" type="text" style="display:none" />
 
     </form>
 
 
 </div>
+
+
+
+@*<---- Model -------->*@
+
+<div id="divSaveContentModel" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                
+                <div class="" style="margin-bottom:30px">This content will be <span style="color:red;font-weight:bold">In-Active.</span> To send the text to the app, please activate content by clicking checkbox.</div>
+                
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div style="display:block;" id="divIsEnabled" class="form-group">                   
+                        <input style="height:15px;width:15px" type="checkbox" id="chkIsEnabled"  /><b class="text-info"> Activate Content?</b>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="SaveContent()">Save Content</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 
 @Scripts.Render("~/bundles/jquery")
 @section  Scripts
@@ -156,19 +176,18 @@
     <script>
         CKEDITOR.replace('editorContent');
     </script>*@
-<script src="~/Content/Javascript/ckeditor/ckeditor.js"></script>
+@*<script src="~/Content/Javascript/ckeditor/ckeditor.js"></script>*@
 
-<script type="text/javascript">
 
-    
-</script>
 
     <script type="text/javascript">
 
-
+        $("#txtMaxLenthContent").val('@Model.MaxLengthContent');
+        $("#txtMaxLenthTitle").val('@Model.MaxLengthTitle');
+        $("#txtPlusOneCountries").val('@Model.PlusOneCountries');
 
         $(document).ready(function () {
-    CKEDITOR.replace('editorContent');
+    //CKEDITOR.replace('editorContent');
     //var options = {
     //    width: 800,
     //    height: 500,
@@ -178,9 +197,43 @@
 
         if ('@Model.ServiceId' != -1) {
             $("#txtServiceId").val('@Model.ServiceId');
-        }
+            }
+
+        Invite_PlusOne();
+
 });
 
+
+        function CharacterCountExceeded(htmlElementId,countLimit)
+        {
+            if ($("#" + htmlElementId).val().length > countLimit)
+                return true;
+            else
+                return false;
+        }
+
+        function CountryChange()
+        {
+            Invite_PlusOne();
+        }
+
+        function Invite_PlusOne()
+        {
+
+            var PlusOne_Countries = $("#txtPlusOneCountries").val();
+            var selectedCountry = $("#drpCountry option:selected").text();
+
+            if (PlusOne_Countries.indexOf(selectedCountry) == -1) {
+
+                $("#divService_plusone").hide();
+                $("#divService_invite").show();
+            }
+            else
+            {
+                $("#divService_plusone").show();
+                $("#divService_invite").hide();
+            }
+        }
 
         function SaveContent()
         {
@@ -191,8 +244,12 @@
             }
             else
             {
-                if (CKEDITOR.instances['editorContent'].getData() == "")
-                {
+                //if (CKEDITOR.instances['editorContent'].getData() == "")
+                //{
+                //    alert("Please enter content in content box.");
+                //}
+                if ($('#editorContent').val() == "") {
+
                     alert("Please enter content in content box.");
                 }
                 else
@@ -203,37 +260,53 @@
                     }
                     else {
 
-                        $.ajax({
-                            type: "POST",
-                            traditional: true,
-                            url: "/Content/SaveContent",
-                            data: "{serviceId: '" + $("#txtServiceId").val() + "', languageId: '" + $("#drpLanguage").val() + "', countryId: '" + $("#drpCountry").val() + "', isActive: '" + $("#chkIsEnabled").prop("checked") + "',  title: '" + $("#txtTitle").val() + "', content: '" + CKEDITOR.instances['editorContent'].getData() + "'}",
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (data) {
+                        if (CharacterCountExceeded("txtTitle", parseInt($("#txtMaxLenthTitle").val()))) {
 
-                                // Success
-                                if (data.Result > 0) {
+                            alert("Maximum character limit for 'Title' is " + $("#txtMaxLenthTitle").val() + ". Please enter correct value for 'Title'")
+                        }
+                        else {
 
-                                    alert("Content saved successfully.");
-                                }
-                                //Error
-                                else {
+                            if (CharacterCountExceeded("editorContent", parseInt($("#txtMaxLenthContent").val()))) {
 
-                                    if (data.Result == -1) {
-
-                                        alert(data.ErrorMessage);
-                                    }
-
-                                }
-
-                            },
-                            error: function (request, status, errorThrown) {
-
-                                alert("Error: " + errorThrown);
-
+                                alert("Maximum character limit for 'Content' is " + $("#txtMaxLenthContent").val() + ". Please enter correct value for 'Content'")
                             }
-                        });
+                            else {
+
+                                    $.ajax({
+                                    type: "POST",
+                                    traditional: true,
+                                    url: "/Content/SaveContent",
+                                    //data: "{serviceId: '" + $("#txtServiceId").val() + "', languageId: '" + $("#drpLanguage").val() + "', countryId: '" + $("#drpCountry").val() + "', isActive: '" + $("#chkIsEnabled").prop("checked") + "',  title: '" + $("#txtTitle").val() + "', content: '" + CKEDITOR.instances['editorContent'].getData() + "'}",
+                                    data: "{serviceId: '" + $("#txtServiceId").val() + "', languageId: '" + $("#drpLanguage").val() + "', countryId: '" + $("#drpCountry").val() + "', isActive: '" + $("#chkIsEnabled").prop("checked") + "',  title: '" + $("#txtTitle").val() + "', content: '" + $('#editorContent').val() + "'}",
+
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "json",
+                                    success: function (data) {
+
+                                        // Success
+                                        if (data.Result > 0) {
+
+                                            alert("Content saved successfully.");
+                                        }
+                                        //Error
+                                        else {
+
+                                            if (data.Result == -1) {
+
+                                                alert(data.ErrorMessage);
+                                            }
+
+                                        }
+
+                                    },
+                                    error: function (request, status, errorThrown) {
+
+                                        alert("Error: " + errorThrown);
+
+                                    }
+                                });
+                            }
+                        }
                     }
                 }
             }
@@ -243,8 +316,8 @@
         {
 
             $("#txtServiceId").val(serviceId);
-            $("div[id^='divServiceName_']").attr("style", "width:80px;text-align:center;");
-            $("#divServiceName_" + serviceId).attr("style", "width:80px;text-align:center;font-weight:bold;color:red;");
+            $("div[id^='divServiceName_']").attr("style", "width:58px;text-align:center;font-size:11px");
+            $("#divServiceName_" + serviceId).attr("style", "width:58px;text-align:center;font-weight:bold;color:red;font-size:11px");
             $.ajax({
                 type: "POST",
                 traditional: true,
@@ -267,7 +340,8 @@
 
                         $("#txtTitle").val(data.ServiceOption.ContentTitle);
 
-                        CKEDITOR.instances['editorContent'].setData(data.ServiceOption.ContentMessage);
+                        //CKEDITOR.instances['editorContent'].setData(data.ServiceOption.ContentMessage);
+                        $('#editorContent').val(data.ServiceOption.ContentMessage);
                     }
                     //Error
                     else {
@@ -277,7 +351,8 @@
                             alert(data.ErrorMessage);
                         }
                         $("#txtTitle").val("");
-                        CKEDITOR.instances['editorContent'].setData("");
+                        //CKEDITOR.instances['editorContent'].setData("");
+                        $('#editorContent').val("");
                         $("#chkIsEnabled").attr("checked", false);
                     }
 
@@ -286,7 +361,8 @@
 
                     alert("Error: " + errorThrown);
                     $("#txtTitle").val("");
-                    CKEDITOR.instances['editorContent'].setData("");
+                    //CKEDITOR.instances['editorContent'].setData("");
+                    $('#editorContent').val("");
                     $("#chkIsEnabled").attr("checked", false);
 
                 }

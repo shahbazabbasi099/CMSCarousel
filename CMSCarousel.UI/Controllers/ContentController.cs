@@ -4,6 +4,7 @@ using CMSCarousel.UI.Models;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
@@ -36,6 +37,9 @@ namespace CMSCarousel.UI.Controllers
             AddContentViewModel contentModel = new AddContentViewModel();
             try
             {
+                string Max_Length_Title = ConfigurationManager.AppSettings.Get("Max_Length_Title");
+                string Max_Length_Content = ConfigurationManager.AppSettings.Get("Max_Length_Content");
+                string PlusOneCountries = ConfigurationManager.AppSettings.Get("PlusOne_Countries");
                 List<thac_country> countries = iCountry.GetCountries();
                 List<thac_language> languages = iLanguage.GetLanguages();
                 List<thac_service> services = iService.GetServices();
@@ -45,6 +49,9 @@ namespace CMSCarousel.UI.Controllers
                 contentModel.IsActive = false;
                 contentModel.ContentTitle = "";
                 contentModel.ContentMessage = "";
+                contentModel.MaxLengthContent = Max_Length_Content;
+                contentModel.MaxLengthTitle = Max_Length_Title;
+                contentModel.PlusOneCountries = PlusOneCountries;
                 if (!string.IsNullOrEmpty(serviceId) && !string.IsNullOrEmpty(languageId) && !string.IsNullOrEmpty(countryId))
                 {
                     thac_serviceoption serviceOption = iServiceOption.GetServiceOptionByID(int.Parse(countryId), int.Parse(languageId), int.Parse(serviceId));
@@ -64,7 +71,9 @@ namespace CMSCarousel.UI.Controllers
             }
             catch (Exception ex)
             {
+                Trace.TraceError(ex.Message.ToString());
 
+                return View("Error");
             }
             return View(contentModel);
         }
