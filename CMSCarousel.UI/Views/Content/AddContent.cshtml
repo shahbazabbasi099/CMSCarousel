@@ -21,7 +21,7 @@
             <div class="col-xs-3">
                 <div class="form-group">
                     <label class="text-info" for="sel1">Country</label>
-                    <select class="form-control" id="drpCountry" onchange="CountryChange()" style="height: 28px;">
+                    <select class="form-control" id="drpCountry" onchange="CountryChange()">
                         @if (Model.Countries != null)
                         {
                             foreach (thac_country country in Model.Countries)
@@ -42,7 +42,7 @@
             <div class="col-xs-3">
                 <div class="form-group">
                     <label class="text-info" for="sel1">Language</label>
-                    <select class="form-control" id="drpLanguage" style="height: 28px;">
+                    <select class="form-control" id="drpLanguage" >
                         @if (Model.Languages != null)
                         {
                             foreach (thac_language language in Model.Languages)
