@@ -26,6 +26,11 @@ namespace CMSCarousel.Infastructure.Repositories
             return Query<thac_serviceoption>("sp_GetContentByServcieId", new { CountryId = countryId, LanguageId = languageId, ServiceId = servcieId }).FirstOrDefault();
         }
 
+        public thac_serviceoption GetServiceOptionByID(int serviceOptionId)
+        {
+            return Query<thac_serviceoption>("sp_GetContentByServcieOptionId", new { serviceOptionId = serviceOptionId }).FirstOrDefault();
+        }
+
         public int InsertServiceOption(AddContent addcontent)
         {
             try

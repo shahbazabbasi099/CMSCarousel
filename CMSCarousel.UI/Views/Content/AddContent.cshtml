@@ -75,7 +75,7 @@
             {
                 foreach (thac_service service in Model.Services)
                 {
-                    <div id="divService_@service.ServiceCode" onclick="GetContent('@service.Id')" class="col-xs-2" style="width:65px !important;cursor:pointer">
+                    <div id="divService_@service.ServiceCode" onclick="SelectService('@service.Id')" class="col-xs-2" style="width:65px !important;cursor:pointer">
                         <img style="height: 40px;width: 58px;" src="~/Content/Images/ServicesIcon/@service.ImageUrl" />
                         @if (service.Id == Model.ServiceId)
                         {
@@ -117,7 +117,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="form-group">
-                    <input id="btnSave" data-toggle="modal" data-target="#divSaveContentModel"  type="button" class="btn btn-success" value="Save Content" />
+                    <input id="btnSave" data-toggle="modal" data-target="#divSaveContentModel" onclick="UnCheckInActiveCheckbox()"  type="button" class="btn btn-success" value="Save Content" />
                 </div>
             </div>
         </div>
@@ -204,7 +204,22 @@
 });
 
 
-        function CharacterCountExceeded(htmlElementId,countLimit)
+        function SelectService(serviceId) {
+
+            $("#txtServiceId").val(serviceId);
+            $("div[id^='divServiceName_']").attr("style", "width:58px;text-align:center;font-size:11px");
+            $("#divServiceName_" + serviceId).attr("style", "width:58px;text-align:center;font-weight:bold;color:red;font-size:11px");
+            $('#editorContent').val("");
+            $("#txtTitle").val("");
+
+        }
+
+        function UnCheckInActiveCheckbox()
+        {
+            $("#chkIsEnabled").prop("checked", false);
+        }
+
+        function CharacterCountExceeded(htmlElementId, countLimit)
         {
             if ($("#" + htmlElementId).val().length > countLimit)
                 return true;
@@ -262,13 +277,13 @@
 
                         if (CharacterCountExceeded("txtTitle", parseInt($("#txtMaxLenthTitle").val()))) {
 
-                            alert("Maximum character limit for 'Title' is " + $("#txtMaxLenthTitle").val() + ". Please enter correct value for 'Title'")
+                            alert("Maximum character limit for 'Title' is " + $("#txtMaxLenthTitle").val() + ". Please enter correct value for 'Title'");
                         }
                         else {
 
                             if (CharacterCountExceeded("editorContent", parseInt($("#txtMaxLenthContent").val()))) {
 
-                                alert("Maximum character limit for 'Content' is " + $("#txtMaxLenthContent").val() + ". Please enter correct value for 'Content'")
+                                alert("Maximum character limit for 'Content' is " + $("#txtMaxLenthContent").val() + ". Please enter correct value for 'Content'");
                             }
                             else {
 
@@ -294,6 +309,10 @@
                                             if (data.Result == -1) {
 
                                                 alert(data.ErrorMessage);
+                                            }
+                                            else
+                                            {
+                                                alert("Error: Content not saved.");
                                             }
 
                                         }

@@ -13,6 +13,8 @@ namespace CMSCarousel.Infastructure.Interfaces
 
         thac_serviceoption GetServiceOptionByID(int countryId, int languageId, int servcieId);
 
+        thac_serviceoption GetServiceOptionByID(int serviceOptionId);
+
         List<ViewContent> GetAllContent();
     }
 }

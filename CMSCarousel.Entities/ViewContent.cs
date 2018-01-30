@@ -9,6 +9,7 @@ namespace CMSCarousel.Entities
 {
     public class ViewContent
     {
+        public int ServiceOptionId { get; set; }
         public string Country { get; set; }
         public int CountryId { get; set; }
         public string Language { get; set; }
@@ -23,7 +24,6 @@ namespace CMSCarousel.Entities
         public DateTime CreatedDate { get; set; }
         public int IsActive { get; set; }
         public string UpdatedUserName { get; set; }
-
         public DateTime UpdatedDate { get; set; }
     }
     

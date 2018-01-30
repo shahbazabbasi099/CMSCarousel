@@ -32,7 +32,7 @@ namespace CMSCarousel.UI.Controllers
 
         #region AddContent Page
 
-        public ActionResult AddContent(string serviceId, string languageId, string countryId)
+        public ActionResult AddContent(string serviceOptionId, string languageId, string countryId)
         {
             AddContentViewModel contentModel = new AddContentViewModel();
             try
@@ -52,12 +52,12 @@ namespace CMSCarousel.UI.Controllers
                 contentModel.MaxLengthContent = Max_Length_Content;
                 contentModel.MaxLengthTitle = Max_Length_Title;
                 contentModel.PlusOneCountries = PlusOneCountries;
-                if (!string.IsNullOrEmpty(serviceId) && !string.IsNullOrEmpty(languageId) && !string.IsNullOrEmpty(countryId))
+                if (!string.IsNullOrEmpty(serviceOptionId) && !string.IsNullOrEmpty(languageId) && !string.IsNullOrEmpty(countryId))
                 {
-                    thac_serviceoption serviceOption = iServiceOption.GetServiceOptionByID(int.Parse(countryId), int.Parse(languageId), int.Parse(serviceId));
+                    thac_serviceoption serviceOption = iServiceOption.GetServiceOptionByID(int.Parse(serviceOptionId));
                     if (serviceOption != null)
                     {
-                        contentModel.ServiceId = int.Parse(serviceId);
+                        contentModel.ServiceId = serviceOption.ServiceId;
                         contentModel.CountryId = int.Parse(countryId);
                         contentModel.LanguageId = int.Parse(languageId);
                         contentModel.IsActive = serviceOption.IsActive;
