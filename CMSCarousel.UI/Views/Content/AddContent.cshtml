@@ -287,15 +287,17 @@
                             }
                             else {
 
-                                    $.ajax({
+                                var payload = { serviceId: $("#txtServiceId").val(), languageId: $("#drpLanguage").val(), countryId: $("#drpCountry").val(), isActive: $("#chkIsEnabled").prop("checked"), title: $("#txtTitle").val(), content: $('#editorContent').val() };
+                                $.ajax({
                                     type: "POST",
                                     traditional: true,
                                     url: "/Content/SaveContent",
                                     //data: "{serviceId: '" + $("#txtServiceId").val() + "', languageId: '" + $("#drpLanguage").val() + "', countryId: '" + $("#drpCountry").val() + "', isActive: '" + $("#chkIsEnabled").prop("checked") + "',  title: '" + $("#txtTitle").val() + "', content: '" + CKEDITOR.instances['editorContent'].getData() + "'}",
-                                    data: "{serviceId: '" + $("#txtServiceId").val() + "', languageId: '" + $("#drpLanguage").val() + "', countryId: '" + $("#drpCountry").val() + "', isActive: '" + $("#chkIsEnabled").prop("checked") + "',  title: '" + $("#txtTitle").val() + "', content: '" + $('#editorContent').val() + "'}",
-
+                                    //data: "{serviceId: '" + $("#txtServiceId").val() + "', languageId: '" + $("#drpLanguage").val() + "', countryId: '" + $("#drpCountry").val() + "', isActive: '" + $("#chkIsEnabled").prop("checked") + "',  title: '" + $("#txtTitle").val() + "', content: '" + $('#editorContent').val() + "'}",
+                                    data: JSON.stringify(payload),
                                     contentType: "application/json; charset=utf-8",
                                     dataType: "json",
+                                    processData: false,
                                     success: function (data) {
 
                                         // Success
